@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>As métricas que todo dono de loja de roupa precisa saber | Evolving Escola</title>
+<meta name="description" content="Guia interativo: calcule PA, Ticket Médio, Taxa de Conversão e veja como eles formam o seu faturamento.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1891172647930386');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel -->
+<style>
+/* ============================================
+   TOKENS — Evolving Design System (tema warm)
+   ============================================ */
+:root{
+  --bg:#F3F1EA;
+  --card:#FFFFFF;
+  --muted:#EAE7DC;
+  --dark:#3B0016;
+  --ink:#16171A;
+  --ink-soft:#65635A;
+  --ink-faint:#9A9787;
+  --lime:#FFD602;
+  --lime-ink:#3B0016;
+  --lime-muted:#FFF3B0;
+  --line:rgba(22,23,26,0.09);
+  --line-strong:rgba(22,23,26,0.16);
+
+  --status-low:#FA2424;
+  --status-low-bg:rgba(250,36,36,0.10);
+  --status-mid:#B85A0A;
+  --status-mid-bg:rgba(252,125,19,0.16);
+  --status-high:#7A5C00;
+  --status-high-bg:var(--lime-muted);
+
+  --font-display:'Space Grotesk', sans-serif;
+  --font-body:'Manrope', -apple-system, sans-serif;
+
+  --text-xs:11px; --text-sm:12.5px; --text-base:15.5px; --text-md:17px;
+  --text-lg:19px; --text-xl:23px; --text-2xl:26px; --text-3xl:31px;
+  --text-4xl:38px; --text-5xl:clamp(30px,7vw,48px); --text-6xl:clamp(40px,9vw,72px);
+
+  --leading-tight:1.1; --leading-snug:1.24; --leading-normal:1.55; --leading-relaxed:1.65;
+
+  --r-full:100px; --r-lg:26px; --r-md:18px; --r-sm:12px; --r-xs:8px; --r-circle:50%;
+
+  --shadow-sm:0 1px 4px rgba(22,23,26,0.08);
+  --shadow-md:0 4px 16px rgba(22,23,26,0.10);
+  --shadow-lg:0 14px 28px -12px rgba(22,23,26,0.32);
+
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:20px; --space-6:24px; --space-7:28px; --space-8:32px;
+  --space-10:40px; --space-12:48px; --space-14:54px; --space-16:64px;
+
+  --container-sm:560px; --container-md:760px;
+
+  --duration-fast:150ms; --duration-base:180ms; --duration-slow:300ms; --duration-reveal:500ms;
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --ease-in-out:cubic-bezier(0.45,0,0.2,1);
+
+  --nav-h:58px;
+  --steps-h:66px;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:var(--text-base);
+  line-height:var(--leading-normal);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:700;
+  letter-spacing:-0.02em;
+  line-height:var(--leading-tight);
+  margin:0;
+  color:var(--ink);
+}
+p{margin:0;}
+button{font-family:inherit;}
+a{color:inherit;}
+img,svg{display:block;}
+input{font-family:inherit;}
+
+.container{max-width:var(--container-sm);margin:0 auto;padding:0 var(--space-5);}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:var(--space-2);
+  font-size:var(--text-xs);font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--lime);flex-shrink:0;}
+
+.icon{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+:focus-visible{outline:2px solid var(--dark);outline-offset:3px;border-radius:4px;}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:0.01ms !important;transition-duration:0.01ms !important;scroll-behavior:auto !important;}
+}
+
+/* ============================================
+   NAV
+   ============================================ */
+.navbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(243,241,234,0.86);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.navbar-inner{
+  max-width:var(--container-sm);margin:0 auto;padding:var(--space-3) var(--space-5);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);
+  min-height:var(--nav-h);
+}
+.wordmark{
+  font-family:var(--font-display);font-weight:700;font-size:var(--text-md);
+  letter-spacing:-0.01em;white-space:nowrap;
+}
+.wordmark span{color:var(--ink-faint);font-weight:500;}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:var(--space-2);
+  background:var(--dark);color:var(--bg);
+  font-size:var(--text-sm);font-weight:700;
+  padding:8px 8px 8px 16px;border-radius:var(--r-full);
+  text-decoration:none;white-space:nowrap;flex-shrink:0;
+  border:none;cursor:pointer;
+  transition:transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+.nav-cta .circle{
+  width:26px;height:26px;border-radius:50%;background:var(--lime);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.nav-cta .circle .icon{width:14px;height:14px;stroke:var(--lime-ink);stroke-width:2.4;}
+.nav-cta-label{display:none;}
+@media (min-width:420px){ .nav-cta-label{display:inline;} }
+
+/* ============================================
+   STEP MENU — posicionado logo abaixo da navbar
+   ============================================ */
+.steps-wrap{
+  position:sticky;top:var(--nav-h);z-index:45;
+  background:rgba(243,241,234,0.94);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:var(--space-3) 0;
+}
+.steps-fade-wrap{
+  position:relative;
+  max-width:var(--container-sm);margin:0 auto;
+}
+.steps{
+  display:flex;gap:var(--space-2);overflow-x:auto;
+  padding:0 var(--space-5);
+  scrollbar-width:none;
+}
+.steps::-webkit-scrollbar{display:none;}
+.steps-fade{
+  position:absolute;top:0;bottom:0;width:40px;
+  pointer-events:none;display:flex;align-items:center;z-index:2;
+  opacity:0;transition:opacity var(--duration-base) var(--ease-out);
+}
+.steps-fade .icon{width:13px;height:13px;stroke:var(--ink-faint);stroke-width:2.4;}
+.steps-fade--left{left:0;justify-content:flex-start;padding-left:2px;
+  background:linear-gradient(to right, rgba(243,241,234,0.98) 40%, rgba(243,241,234,0));}
+.steps-fade--right{right:0;justify-content:flex-end;padding-right:2px;
+  background:linear-gradient(to left, rgba(243,241,234,0.98) 40%, rgba(243,241,234,0));}
+.step-btn{
+  display:inline-flex;align-items:center;gap:var(--space-2);flex-shrink:0;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-full);
+  padding:8px 16px 8px 8px;
+  font-size:var(--text-sm);font-weight:700;color:var(--ink-soft);
+  cursor:pointer;min-height:44px;
+  transition:background var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out);
+}
+.step-btn .num{
+  width:24px;height:24px;border-radius:50%;background:var(--muted);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:var(--font-display);font-size:11px;font-weight:700;color:var(--ink-soft);
+  transition:background var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out);
+}
+.step-btn[aria-selected="true"]{background:var(--dark);color:var(--bg);border-color:var(--dark);}
+.step-btn[aria-selected="true"] .num{background:var(--lime);color:var(--lime-ink);}
+
+/* ============================================
+   PANELS
+   ============================================ */
+main{padding-bottom:var(--space-10);}
+.panel{display:none;}
+.panel.is-active{display:block;}
+.panel-inner{
+  opacity:0;transform:translateY(10px);
+  transition:opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+  padding:var(--space-7) 0 var(--space-8);
+}
+.panel-inner.is-in{opacity:1;transform:translateY(0);}
+
+.panel-head-row{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);}
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:var(--text-xs);font-weight:700;color:var(--ink-faint);
+  text-decoration:none;background:none;border:none;cursor:pointer;padding:4px;
+}
+.back-link .icon{width:12px;height:12px;}
+.back-link:hover{color:var(--ink-soft);}
+
+.panel-head h1,.panel-head h2{font-size:var(--text-3xl);margin-top:var(--space-3);}
+.panel-head .sub{color:var(--ink-soft);font-size:var(--text-md);margin-top:var(--space-2);}
+
+/* intro panel gets a bigger hero-style h1 */
+#panel-intro .panel-head h1{font-size:var(--text-5xl);}
+.hero-greeting{
+  margin-top:var(--space-3);font-family:var(--font-display);font-weight:600;
+  font-size:var(--text-md);color:var(--ink-soft);
+}
+
+.panel-body p{color:var(--ink-soft);line-height:var(--leading-relaxed);}
+.panel-body p + p{margin-top:var(--space-3);}
+
+.check-list{list-style:none;margin:var(--space-6) 0 0;padding:0;display:flex;flex-direction:column;gap:var(--space-3);}
+.check-item{display:flex;align-items:flex-start;gap:var(--space-3);}
+.check-item .circle{
+  width:22px;height:22px;border-radius:50%;background:var(--lime);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
+}
+.check-item .circle .icon{width:12px;height:12px;stroke:var(--lime-ink);stroke-width:3;}
+.check-item p{font-size:var(--text-base);color:var(--ink);}
+
+.quote-block{
+  margin-top:var(--space-7);
+  background:var(--muted);
+  border-radius:var(--r-lg);
+  padding:var(--space-6);
+  font-family:var(--font-display);
+  font-size:var(--text-xl);
+  font-weight:600;
+  line-height:var(--leading-snug);
+  letter-spacing:-0.01em;
+}
+
+.formula-teaser{
+  margin-top:var(--space-7);
+  background:linear-gradient(155deg,#FA2424,#3B0016);
+  border-radius:var(--r-lg);
+  padding:var(--space-7) var(--space-6);
+  color:var(--bg);
+}
+.formula-teaser .eyebrow{color:rgba(243,241,234,0.55);}
+.formula-eq{
+  font-family:var(--font-display);font-weight:600;
+  font-size:clamp(17px,4.4vw,24px);
+  line-height:var(--leading-snug);
+  margin-top:var(--space-4);
+  color:var(--bg);
+}
+.formula-eq b{color:var(--lime);font-weight:700;}
+.formula-teaser p.cap{
+  margin-top:var(--space-4);color:rgba(243,241,234,0.62);
+  font-size:var(--text-sm);line-height:var(--leading-relaxed);max-width:42ch;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn{
+  display:inline-flex;align-items:center;gap:var(--space-3);
+  border:none;cursor:pointer;
+  border-radius:var(--r-full);
+  font-size:var(--text-base);font-weight:700;font-family:var(--font-body);
+  padding:6px 6px 6px 22px;
+  text-decoration:none;
+  transition:transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+  min-height:48px;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+.btn .circle{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.btn .circle .icon{width:16px;height:16px;stroke-width:2.4;}
+.btn-dark{background:var(--dark);color:var(--bg);}
+.btn-dark .circle{background:var(--lime);}
+.btn-dark .circle .icon{stroke:var(--lime-ink);}
+.btn-lime{background:var(--lime);color:var(--lime-ink);}
+.btn-lime .circle{background:var(--dark);}
+.btn-lime .circle .icon{stroke:var(--lime);}
+.btn-block{width:100%;justify-content:space-between;}
+.btn-full{width:100%;justify-content:space-between;margin-top:var(--space-6);}
+
+/* ============================================
+   CALCULATOR — agora é o primeiro bloco de cada etapa
+   ============================================ */
+.calc-card{
+  background:var(--dark);color:var(--bg);
+  border-radius:var(--r-lg);padding:var(--space-7) var(--space-6);
+  box-shadow:var(--shadow-lg);
+}
+.calc-card .card-label{color:var(--lime);font-size:var(--text-xs);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;}
+.calc-card h2{color:var(--bg);font-size:var(--text-2xl);margin-top:var(--space-2);}
+.calc-formula-caption{margin-top:var(--space-2);color:rgba(243,241,234,0.55);font-size:var(--text-sm);font-family:var(--font-display);}
+
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-top:var(--space-6);}
+.field{position:relative;}
+.field label{
+  display:block;font-size:var(--text-xs);font-weight:700;letter-spacing:0.04em;
+  color:rgba(243,241,234,0.55);margin-bottom:6px;
+}
+.field input{
+  width:100%;background:rgba(243,241,234,0.06);
+  border:1px solid rgba(243,241,234,0.18);
+  border-radius:var(--r-sm);color:var(--bg);
+  font-size:var(--text-md);font-weight:600;font-family:var(--font-display);
+  padding:12px 14px;min-height:50px;
+  transition:border-color var(--duration-base) var(--ease-out), background var(--duration-base) var(--ease-out);
+}
+.field input::placeholder{color:rgba(243,241,234,0.28);font-weight:500;}
+.field input:focus{outline:none;border-color:var(--lime);background:rgba(243,241,234,0.1);}
+.field input:focus-visible{outline:2px solid var(--lime);outline-offset:2px;}
+
+.result-row{
+  margin-top:var(--space-7);display:flex;align-items:baseline;gap:var(--space-3);flex-wrap:wrap;
+}
+.result-row .result-value{
+  font-family:var(--font-display);font-weight:700;font-size:var(--text-4xl);color:var(--lime);
+  min-width:1ch;
+}
+.result-row .result-unit{font-size:var(--text-base);color:rgba(243,241,234,0.6);}
+
+.gauge{margin-top:var(--space-5);}
+.gauge-track{
+  position:relative;height:10px;border-radius:var(--r-full);overflow:visible;
+  display:flex;background:rgba(243,241,234,0.08);
+}
+.gauge-zone{height:100%;}
+.gauge-zone--low{background:rgba(250,36,36,0.55);border-radius:var(--r-full) 0 0 var(--r-full);}
+.gauge-zone--mid{background:rgba(252,125,19,0.55);}
+.gauge-zone--high{background:rgba(255,214,2,0.65);border-radius:0 var(--r-full) var(--r-full) 0;}
+.gauge-marker{
+  position:absolute;top:50%;width:18px;height:18px;border-radius:50%;
+  background:var(--bg);border:3px solid var(--dark);
+  transform:translate(-50%,-50%);left:0%;
+  transition:left var(--duration-slow) var(--ease-out);
+  box-shadow:0 2px 6px rgba(0,0,0,0.4);
+}
+.gauge-scale{display:flex;justify-content:space-between;margin-top:var(--space-2);font-size:var(--text-xs);color:rgba(243,241,234,0.4);}
+
+.status-pill{
+  margin-top:var(--space-4);display:inline-flex;align-items:center;gap:var(--space-2);
+  padding:8px 16px;border-radius:var(--r-full);font-size:var(--text-sm);font-weight:700;
+  transition:background var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out);
+}
+.status-pill .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+.calc-note{margin-top:var(--space-5);font-size:var(--text-sm);color:rgba(243,241,234,0.55);line-height:var(--leading-relaxed);padding-top:var(--space-5);border-top:1px solid rgba(243,241,234,0.12);}
+
+/* ============================================
+   "ENTENDA ESSE NÚMERO" — conteúdo de apoio, depois da calculadora
+   ============================================ */
+.support-head{margin-top:var(--space-8);}
+.support-head .eyebrow{color:var(--ink-faint);}
+
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:var(--space-6);
+  margin-top:var(--space-5);
+}
+.card-label{
+  font-size:var(--text-xs);font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--ink-faint);
+}
+.formula-box{
+  margin-top:var(--space-5);
+  background:var(--dark);color:var(--bg);
+  border-radius:var(--r-lg);padding:var(--space-6);
+  font-family:var(--font-display);font-weight:600;
+  font-size:var(--text-xl);
+}
+.formula-box .card-label{color:rgba(243,241,234,0.5);}
+.formula-box .expr{margin-top:var(--space-2);color:var(--lime);}
+
+.example-card .result{
+  margin-top:var(--space-3);display:inline-flex;align-items:center;gap:var(--space-2);
+  background:var(--lime-muted);color:var(--lime-ink);
+  padding:8px 16px;border-radius:var(--r-full);
+  font-family:var(--font-display);font-weight:700;font-size:var(--text-base);
+}
+
+.range-list{display:flex;flex-direction:column;gap:var(--space-3);margin-top:var(--space-5);}
+.range-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:var(--space-5);display:flex;gap:var(--space-4);
+}
+.range-card .tag{
+  flex-shrink:0;font-family:var(--font-display);font-weight:700;font-size:var(--text-sm);
+  padding:6px 12px;border-radius:var(--r-full);white-space:nowrap;height:fit-content;
+}
+.range-card.low .tag{background:var(--status-low-bg);color:var(--status-low);}
+.range-card.mid .tag{background:var(--status-mid-bg);color:var(--status-mid);}
+.range-card.high .tag{background:var(--status-high-bg);color:var(--status-high);}
+.range-card .rc-text b{display:block;font-size:var(--text-base);color:var(--ink);margin-bottom:4px;}
+.range-card .rc-text span{font-size:var(--text-sm);color:var(--ink-soft);line-height:var(--leading-normal);}
+
+.tip-box{
+  margin-top:var(--space-5);
+  background:var(--muted);border-radius:var(--r-md);
+  padding:var(--space-5);display:flex;gap:var(--space-3);align-items:flex-start;
+}
+.tip-box .circle{
+  width:28px;height:28px;border-radius:50%;background:var(--lime);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.tip-box .circle .icon{width:15px;height:15px;stroke:var(--lime-ink);stroke-width:2.2;}
+.tip-box p{font-size:var(--text-sm);color:var(--ink);line-height:var(--leading-relaxed);}
+.tip-box p b{color:var(--ink);}
+
+.benchmark{
+  margin-top:var(--space-5);
+  border:1px solid var(--line-strong);border-radius:var(--r-md);
+  padding:var(--space-5);
+  display:flex;gap:var(--space-4);align-items:center;
+}
+.benchmark .num{
+  font-family:var(--font-display);font-weight:700;font-size:var(--text-2xl);color:var(--ink);
+  flex-shrink:0;
+}
+.benchmark p{font-size:var(--text-sm);color:var(--ink-soft);line-height:var(--leading-relaxed);}
+
+/* ============================================
+   RESUMO RÁPIDO (dentro da etapa Fórmula)
+   ============================================ */
+.recap-list{display:flex;flex-direction:column;gap:var(--space-3);margin-top:var(--space-5);}
+.recap-item{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:var(--space-5);
+}
+.recap-item .rt{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);}
+.recap-item .rt b{font-family:var(--font-display);font-size:var(--text-md);}
+.recap-item .rt span{font-size:var(--text-sm);color:var(--ink-soft);}
+.recap-item .goal{margin-top:var(--space-4);}
+.recap-item .goal label{display:block;font-size:var(--text-xs);font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+.recap-item .goal input{
+  width:100%;border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:10px 12px;font-size:var(--text-base);font-family:var(--font-display);font-weight:600;
+  background:var(--muted);color:var(--ink);min-height:44px;
+}
+.recap-item .goal input:focus{outline:none;border-color:var(--dark);}
+
+.final-cta{
+  margin-top:var(--space-8);
+  background:linear-gradient(155deg,#FA2424,#3B0016);
+  border-radius:var(--r-lg);
+  padding:var(--space-8) var(--space-6);color:var(--bg);
+  scroll-margin-top:calc(var(--nav-h) + var(--steps-h) + 16px);
+}
+.final-cta .eyebrow{color:rgba(243,241,234,0.55);}
+.final-cta h2{color:var(--bg);font-size:var(--text-2xl);margin-top:var(--space-3);}
+.final-cta p{color:rgba(243,241,234,0.65);margin-top:var(--space-3);line-height:var(--leading-relaxed);}
+.final-cta .btn{margin-top:var(--space-6);}
+
+footer{padding:var(--space-10) 0 calc(var(--space-10) + 70px);text-align:center;}
+footer .wordmark{display:block;}
+footer .url{margin-top:var(--space-2);font-size:var(--text-sm);color:var(--ink-faint);}
+
+/* ============================================
+   MOBILE STICKY CTA
+   ============================================ */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  padding:var(--space-3) var(--space-5) calc(var(--space-3) + env(safe-area-inset-bottom));
+  background:rgba(243,241,234,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);
+  transform:translateY(110%);
+  transition:transform var(--duration-slow) var(--ease-out);
+}
+.sticky-cta.is-visible{transform:translateY(0);}
+
+/* ============================================
+   LEAD GATE — pop-up obrigatório no acesso à página
+   ============================================ */
+body.lead-gate-open{overflow:hidden;}
+
+.lead-gate{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(59,0,22,0.65);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  padding:var(--space-5);overflow-y:auto;
+  opacity:1;transition:opacity var(--duration-slow) var(--ease-out);
+}
+.lead-gate.is-closing{opacity:0;pointer-events:none;}
+.lead-gate-card{
+  background:var(--card);border-radius:var(--r-lg);
+  padding:var(--space-7) var(--space-6);
+  max-width:440px;width:100%;
+  box-shadow:var(--shadow-lg);
+  margin:auto;
+  transform:translateY(0) scale(1);
+  transition:transform var(--duration-slow) var(--ease-out);
+}
+.lead-gate.is-closing .lead-gate-card{transform:translateY(12px) scale(0.98);}
+.lead-gate-head h2{font-size:var(--text-2xl);margin-top:var(--space-3);}
+.lead-gate-head .sub{color:var(--ink-soft);font-size:var(--text-sm);margin-top:var(--space-2);line-height:var(--leading-normal);}
+
+.lg-field{position:relative;margin-top:var(--space-4);}
+.lg-field input{
+  width:100%;min-height:56px;
+  padding:19px 16px 7px;
+  border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--muted);color:var(--ink);
+  font-size:var(--text-base);font-family:var(--font-body);
+  transition:border-color var(--duration-base) var(--ease-out);
+}
+.lg-field input:focus{outline:none;border-color:var(--dark);}
+.lg-field label{
+  position:absolute;left:17px;top:50%;transform:translateY(-50%);
+  font-size:var(--text-base);color:var(--ink-faint);pointer-events:none;
+  transition:all var(--duration-base) var(--ease-out);
+}
+.lg-field input:focus + label,
+.lg-field input:not(:placeholder-shown) + label{
+  top:11px;transform:translateY(0);font-size:10.5px;font-weight:700;
+  letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-soft);
+}
+.lg-field.has-error input{border-color:var(--status-low);}
+.lg-field .field-error,
+.lg-select .field-error{
+  display:none;margin-top:6px;font-size:var(--text-xs);color:var(--status-low);
+}
+.lg-field.has-error .field-error,
+.lg-select.has-error .field-error{display:block;}
+
+.lg-select{position:relative;margin-top:var(--space-4);}
+.lg-select-btn{
+  width:100%;min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);
+  padding:0 16px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--muted);cursor:pointer;text-align:left;
+  transition:border-color var(--duration-base) var(--ease-out);
+}
+.lg-select.has-error .lg-select-btn{border-color:var(--status-low);}
+.lg-select-btn[aria-expanded="true"]{border-color:var(--dark);}
+.lg-select-value{
+  font-size:var(--text-sm);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-faint);
+}
+.lg-select-value.is-selected{font-size:var(--text-base);font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink);}
+.lg-select-btn .chevron{width:16px;height:16px;stroke:var(--ink-faint);flex-shrink:0;transition:transform var(--duration-base) var(--ease-out);}
+.lg-select-btn[aria-expanded="true"] .chevron{transform:rotate(180deg);}
+.lg-select-list{
+  position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:6;
+  background:var(--card);border:1px solid var(--line-strong);border-radius:var(--r-md);
+  box-shadow:var(--shadow-lg);max-height:240px;overflow-y:auto;
+  list-style:none;margin:0;padding:6px;
+}
+.lg-select-list[hidden]{display:none;}
+.lg-select-header{
+  padding:8px 12px 4px;font-size:10.5px;font-weight:700;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--ink-faint);pointer-events:none;
+}
+.lg-select-list li[role="option"]{
+  padding:11px 12px;border-radius:var(--r-xs);font-size:var(--text-base);color:var(--ink);cursor:pointer;
+}
+.lg-select-list li[role="option"]:hover,
+.lg-select-list li[role="option"]:focus{background:var(--muted);outline:none;}
+
+.lg-submit{margin-top:var(--space-6);}
+
+@media (min-width:760px){
+  .sticky-cta{display:none;}
+}
+</style>
+</head>
+<body class="lead-gate-open">
+
+<!-- LEAD GATE — pop-up obrigatório -->
+<div class="lead-gate" id="leadGate" role="dialog" aria-modal="true" aria-labelledby="lead-gate-title">
+  <div class="lead-gate-card">
+    <div class="lead-gate-head">
+      <span class="eyebrow"><span class="dot"></span>Antes de começar</span>
+      <h2 id="lead-gate-title">Pra calcular certo, a gente precisa te conhecer</h2>
+      <p class="sub">Leva 30 segundos. Assim que enviar, você já cai direto na calculadora.</p>
+    </div>
+
+    <form id="leadForm" novalidate>
+      <div class="lg-field">
+        <input type="text" id="lg-nome" name="nome" autocomplete="name" placeholder=" " required>
+        <label for="lg-nome">Nome</label>
+        <span class="field-error">Digite seu nome</span>
+      </div>
+
+      <div class="lg-field">
+        <input type="tel" id="lg-whatsapp" name="whatsapp" inputmode="numeric" autocomplete="tel" placeholder=" " required>
+        <label for="lg-whatsapp">WhatsApp com DDD</label>
+        <span class="field-error">Digite um WhatsApp válido, com DDD</span>
+      </div>
+
+      <div class="lg-field">
+        <input type="text" id="lg-instagram" name="instagram" autocomplete="off" placeholder=" " required>
+        <label for="lg-instagram">Instagram da loja</label>
+        <span class="field-error">Digite o @ da loja</span>
+      </div>
+
+      <div class="lg-select" data-select-name="faturamento">
+        <button type="button" class="lg-select-btn" aria-haspopup="listbox" aria-expanded="false">
+          <span class="lg-select-value">Faturamento</span>
+          <svg class="icon chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <ul class="lg-select-list" role="listbox" hidden>
+          <li class="lg-select-header">Faturamento</li>
+          <li role="option" tabindex="-1">Menos de R$24.000,00</li>
+          <li role="option" tabindex="-1">R$25.000,00 a R$34.000,00</li>
+          <li role="option" tabindex="-1">R$35.000,00 a R$40.000,00</li>
+          <li role="option" tabindex="-1">R$41.000,00 a R$50.000,00</li>
+          <li role="option" tabindex="-1">R$51.000,00 a R$70.000,00</li>
+          <li role="option" tabindex="-1">R$71.000,00 a R$100.000,00</li>
+          <li role="option" tabindex="-1">Acima de R$100.000,00</li>
+        </ul>
+        <input type="hidden" name="faturamento" required>
+        <span class="field-error">Selecione uma faixa de faturamento</span>
+      </div>
+
+      <div class="lg-select" data-select-name="dor">
+        <button type="button" class="lg-select-btn" aria-haspopup="listbox" aria-expanded="false">
+          <span class="lg-select-value">Principal dor</span>
+          <svg class="icon chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <ul class="lg-select-list" role="listbox" hidden>
+          <li class="lg-select-header">Principal dor</li>
+          <li role="option" tabindex="-1">Vendo bem, mas não sobra dinheiro</li>
+          <li role="option" tabindex="-1">Estoque parado</li>
+          <li role="option" tabindex="-1">Sem controle do financeiro</li>
+          <li role="option" tabindex="-1">Clientes entram, mas não compram</li>
+          <li role="option" tabindex="-1">Minha equipe não vende sem mim</li>
+          <li role="option" tabindex="-1">Clientes não voltam a comprar</li>
+          <li role="option" tabindex="-1">Não sei como vender pelo Instagram</li>
+        </ul>
+        <input type="hidden" name="dor" required>
+        <span class="field-error">Selecione a sua principal dor</span>
+      </div>
+
+      <button type="submit" class="btn btn-dark btn-full lg-submit">
+        Ver minhas métricas agora
+        <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="pageContent" inert>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="wordmark">Evolving <span>Escola</span></div>
+    <button class="nav-cta" type="button" data-jump="diagnostico">
+      <span class="nav-cta-label">Agendar diagnóstico</span>
+      <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+    </button>
+  </div>
+</nav>
+
+<div class="steps-wrap">
+  <div class="steps-fade-wrap">
+    <div class="steps" role="tablist" aria-label="Etapas do guia">
+      <button class="step-btn" role="tab" id="step-intro" aria-controls="panel-intro" aria-selected="true" data-step="intro" type="button">
+        <span class="num">1</span> Introdução
+      </button>
+      <button class="step-btn" role="tab" id="step-pa" aria-controls="panel-pa" aria-selected="false" data-step="pa" type="button">
+        <span class="num">2</span> PA
+      </button>
+      <button class="step-btn" role="tab" id="step-ticket" aria-controls="panel-ticket" aria-selected="false" data-step="ticket" type="button">
+        <span class="num">3</span> Ticket Médio
+      </button>
+      <button class="step-btn" role="tab" id="step-conversao" aria-controls="panel-conversao" aria-selected="false" data-step="conversao" type="button">
+        <span class="num">4</span> Conversão
+      </button>
+      <button class="step-btn" role="tab" id="step-formula" aria-controls="panel-formula" aria-selected="false" data-step="formula" type="button">
+        <span class="num">5</span> Fórmula
+      </button>
+      <button class="step-btn" role="tab" id="step-diagnostico" aria-controls="panel-diagnostico" aria-selected="false" data-step="diagnostico" type="button">
+        <span class="num">6</span> Agende seu diagnóstico
+      </button>
+    </div>
+    <div class="steps-fade steps-fade--left" aria-hidden="true">
+      <svg class="icon" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg>
+    </div>
+    <div class="steps-fade steps-fade--right" aria-hidden="true">
+      <svg class="icon" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="container">
+
+    <!-- PANEL INTRODUÇÃO -->
+    <section class="panel is-active" id="panel-intro" role="tabpanel" aria-labelledby="step-intro">
+      <div class="panel-inner">
+        <div class="panel-head">
+          <span class="eyebrow"><span class="dot"></span>Etapa 1 de 6</span>
+          <h1>As métricas que todo dono de loja de roupa precisa saber</h1>
+          <p class="hero-greeting">Bem-vindo(a)<span class="js-name-suffix">!</span></p>
+          <p class="sub">Escolha uma etapa acima e calcule com os seus próprios números</p>
+        </div>
+
+        <div class="panel-body" style="margin-top:var(--space-6)">
+          <p>A maioria dos lojistas sabe quanto faturou no mês, mas não sabe por que faturou aquele valor. Sem métricas, você não consegue identificar se o resultado veio de mais clientes, de uma equipe vendendo melhor, ou simplesmente de sorte. E quando o faturamento cai, você também não sabe onde agir.</p>
+          <p>Métricas são o GPS do seu negócio. Sem elas, você dirige no escuro, tomando decisão por intuição quando poderia decidir com fatos.</p>
+        </div>
+
+        <ul class="check-list">
+          <li class="check-item">
+            <span class="circle"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <p>Você para de achar e começa a saber o que está funcionando</p>
+          </li>
+          <li class="check-item">
+            <span class="circle"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <p>Você identifica onde está perdendo dinheiro sem perceber</p>
+          </li>
+          <li class="check-item">
+            <span class="circle"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <p>Você cobra sua equipe com critérios claros e justos</p>
+          </li>
+          <li class="check-item">
+            <span class="circle"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <p>Você descobre que, muitas vezes, não precisa de mais clientes: precisa vender melhor para quem já entra</p>
+          </li>
+        </ul>
+
+        <p class="quote-block">Quem mede, cresce. Quem não mede, quebra.</p>
+
+        <div class="formula-teaser">
+          <span class="eyebrow"><span class="dot"></span>A lógica por trás do faturamento</span>
+          <p class="formula-eq">Faturamento <b>=</b> Fluxo <b>×</b> Conversão <b>×</b> Ticket Médio <b>×</b> PA</p>
+          <p class="cap">As 3 próximas etapas explicam o seu faturamento inteiro. Comece pelo PA.</p>
+        </div>
+
+        <button class="btn btn-dark btn-full" type="button" data-jump="pa">
+          Começar pelo PA
+          <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- PANEL PA -->
+    <section class="panel" id="panel-pa" role="tabpanel" aria-labelledby="step-pa">
+      <div class="panel-inner">
+        <div class="panel-head-row">
+          <span class="eyebrow"><span class="dot"></span>Etapa 2 de 6</span>
+          <button class="back-link" type="button" data-jump="intro">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Introdução
+          </button>
+        </div>
+        <div class="panel-head">
+          <h2>PA: peças por atendimento</h2>
+          <p class="sub">Quantas peças cada cliente leva por compra</p>
+        </div>
+
+        <div class="calc-card" style="margin-top:var(--space-6)">
+          <div class="card-label">Calculadora</div>
+          <h2>Calcule o PA da <span class="js-name">sua loja</span> agora</h2>
+          <p class="calc-formula-caption">PA = Total de peças vendidas ÷ Número de vendas</p>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="pa-pecas">Peças vendidas hoje</label>
+              <input type="number" id="pa-pecas" inputmode="decimal" min="0" placeholder="Ex: 120">
+            </div>
+            <div class="field">
+              <label for="pa-vendas">Vendas realizadas hoje</label>
+              <input type="number" id="pa-vendas" inputmode="decimal" min="0" placeholder="Ex: 40">
+            </div>
+          </div>
+          <div class="result-row">
+            <span class="result-value" id="pa-result" aria-live="polite">0,0</span>
+            <span class="result-unit">peças por atendimento</span>
+          </div>
+          <div class="gauge" data-gauge="pa" data-min="0" data-max="5" data-t1="2" data-t2="3">
+            <div class="gauge-track">
+              <div class="gauge-zone gauge-zone--low"></div>
+              <div class="gauge-zone gauge-zone--mid"></div>
+              <div class="gauge-zone gauge-zone--high"></div>
+              <div class="gauge-marker"></div>
+            </div>
+            <div class="gauge-scale"><span>0</span><span>5+</span></div>
+          </div>
+          <div class="status-pill" id="pa-status" data-status-labels='["Vendendo sem adicionar peças","Adição inconsistente","Conduzindo com intenção"]'>
+            <span class="dot"></span><span class="status-text">Preencha os campos acima</span>
+          </div>
+        </div>
+
+        <div class="support-head">
+          <span class="eyebrow"><span class="dot"></span>Entenda esse número</span>
+        </div>
+        <div class="panel-body" style="margin-top:var(--space-4)">
+          <p>O PA mostra quantas peças, em média, cada cliente leva por compra. É um termômetro direto da sua equipe de vendas: um PA baixo indica que o vendedor entrega o que o cliente pediu e encerra a venda, sem oferecer nenhum item adicional.</p>
+        </div>
+
+        <div class="card example-card">
+          <div class="card-label">Exemplo prático</div>
+          <p style="margin-top:8px">Você vendeu 120 peças em 40 atendimentos na semana.</p>
+          <p style="margin-top:4px">120 ÷ 40 = PA 3,0</p>
+          <div class="result">Bom desempenho de adição de peças</div>
+        </div>
+
+        <div class="range-list">
+          <div class="range-card low">
+            <span class="tag">Abaixo de 2</span>
+            <div class="rc-text"><b>Venda sem adição</b><span>O vendedor entrega só o que o cliente pediu e encerra a venda, sem oferecer itens adicionais.</span></div>
+          </div>
+          <div class="range-card mid">
+            <span class="tag">Entre 2 e 3</span>
+            <div class="rc-text"><b>Adição inconsistente</b><span>A equipe já tem algum hábito de oferecer mais itens, mas ainda de forma inconsistente.</span></div>
+          </div>
+          <div class="range-card high">
+            <span class="tag">Acima de 3</span>
+            <div class="rc-text"><b>Intenção no atendimento</b><span>O time conduz o atendimento com intenção e aumenta o valor de cada venda.</span></div>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <span class="circle"><svg class="icon" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2Z"/></svg></span>
+          <p><b>Dica:</b> treine sua equipe para sempre oferecer combinações de look: "Essa calça fica incrível com essa blusa. Posso trazer para você experimentar?"</p>
+        </div>
+
+        <div class="benchmark">
+          <span class="num">3,5+</span>
+          <p>No varejo de moda física no Brasil, lojas com boa performance de equipe registram PA entre 3,5 e 4,5. A Evolving pode te ajudar a alcançar esse número numa Sessão com o Especialista.</p>
+        </div>
+
+        <button class="btn btn-dark btn-full" type="button" data-jump="ticket">
+          Próxima etapa: Ticket Médio
+          <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- PANEL TICKET MÉDIO -->
+    <section class="panel" id="panel-ticket" role="tabpanel" aria-labelledby="step-ticket">
+      <div class="panel-inner">
+        <div class="panel-head-row">
+          <span class="eyebrow"><span class="dot"></span>Etapa 3 de 6</span>
+          <button class="back-link" type="button" data-jump="pa">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            PA
+          </button>
+        </div>
+        <div class="panel-head">
+          <h2>Ticket Médio</h2>
+          <p class="sub">Quanto cada cliente gasta em média por compra</p>
+        </div>
+
+        <div class="calc-card" style="margin-top:var(--space-6)">
+          <div class="card-label">Calculadora</div>
+          <h2>Calcule o Ticket Médio da <span class="js-name">sua loja</span> agora</h2>
+          <p class="calc-formula-caption">Ticket Médio = Faturamento total ÷ Número de vendas</p>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="tk-fat">Faturamento do dia (R$)</label>
+              <input type="number" id="tk-fat" inputmode="decimal" min="0" placeholder="Ex: 12000">
+            </div>
+            <div class="field">
+              <label for="tk-vendas">Vendas realizadas</label>
+              <input type="number" id="tk-vendas" inputmode="decimal" min="0" placeholder="Ex: 40">
+            </div>
+          </div>
+          <div class="result-row">
+            <span class="result-unit">R$</span>
+            <span class="result-value" id="tk-result" aria-live="polite">0</span>
+            <span class="result-unit">por venda</span>
+          </div>
+          <div class="gauge" data-gauge="tk" data-min="0" data-max="600" data-t1="250" data-t2="350">
+            <div class="gauge-track">
+              <div class="gauge-zone gauge-zone--low"></div>
+              <div class="gauge-zone gauge-zone--mid"></div>
+              <div class="gauge-zone gauge-zone--high"></div>
+              <div class="gauge-marker"></div>
+            </div>
+            <div class="gauge-scale"><span>R$0</span><span>R$600+</span></div>
+          </div>
+          <div class="status-pill" id="tk-status" data-status-labels='["Abaixo do esperado","Na média esperada","Acima do esperado"]'>
+            <span class="dot"></span><span class="status-text">Preencha os campos acima</span>
+          </div>
+        </div>
+
+        <div class="support-head">
+          <span class="eyebrow"><span class="dot"></span>Entenda esse número</span>
+        </div>
+        <div class="panel-body" style="margin-top:var(--space-4)">
+          <p>O Ticket Médio mostra quanto cada cliente gasta, em média, por compra. É diferente do faturamento total: ele revela o valor de cada venda individualmente e aponta se a equipe está vendendo peças de maior valor ou sempre as mais baratas.</p>
+        </div>
+
+        <div class="card example-card">
+          <div class="card-label">Exemplo prático</div>
+          <p style="margin-top:8px">Você faturou R$ 12.000 em 40 vendas na semana.</p>
+          <p style="margin-top:4px">R$ 12.000 ÷ 40 = Ticket Médio R$ 300</p>
+          <div class="result">R$ 300 por venda</div>
+        </div>
+
+        <div class="range-list">
+          <div class="range-card low">
+            <span class="tag">Abaixo do esperado</span>
+            <div class="rc-text"><b>Receio de apresentar valor</b><span>A equipe pode estar com receio de apresentar peças mais caras, ou o mix de produto não está alinhado.</span></div>
+          </div>
+          <div class="range-card mid">
+            <span class="tag">Na média esperada</span>
+            <div class="rc-text"><b>Estável, com espaço pra crescer</b><span>As vendas estão estáveis, mas há espaço para crescer sem depender de mais clientes.</span></div>
+          </div>
+          <div class="range-card high">
+            <span class="tag">Acima do esperado</span>
+            <div class="rc-text"><b>Cliente percebe valor</b><span>A equipe vende bem e o cliente percebe valor nos produtos oferecidos.</span></div>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <span class="circle"><svg class="icon" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2Z"/></svg></span>
+          <p><b>Dica:</b> apresente sempre uma peça de valor mais alto junto com a que o cliente já escolheu. Kits e conjuntos com preço especial aumentam o ticket sem forçar a venda.</p>
+        </div>
+
+        <div class="benchmark">
+          <span class="num">R$350+</span>
+          <p>Para lojas de moda feminina de médio padrão no Brasil, o ticket médio saudável fica acima de R$ 350 por venda. Lojas com mix bem posicionado e equipe treinada em upsell costumam superar R$ 450.</p>
+        </div>
+
+        <button class="btn btn-dark btn-full" type="button" data-jump="conversao">
+          Próxima etapa: Conversão
+          <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- PANEL CONVERSÃO -->
+    <section class="panel" id="panel-conversao" role="tabpanel" aria-labelledby="step-conversao">
+      <div class="panel-inner">
+        <div class="panel-head-row">
+          <span class="eyebrow"><span class="dot"></span>Etapa 4 de 6</span>
+          <button class="back-link" type="button" data-jump="ticket">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Ticket Médio
+          </button>
+        </div>
+        <div class="panel-head">
+          <h2>Taxa de Conversão</h2>
+          <p class="sub">De cada pessoa que entrou, quantas compraram</p>
+        </div>
+
+        <div class="calc-card" style="margin-top:var(--space-6)">
+          <div class="card-label">Calculadora</div>
+          <h2>Calcule a conversão da <span class="js-name">sua loja</span> agora</h2>
+          <p class="calc-formula-caption">Conversão (%) = (Nº de vendas ÷ Nº de pessoas que entraram) × 100</p>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="cv-pessoas">Pessoas que entraram</label>
+              <input type="number" id="cv-pessoas" inputmode="decimal" min="0" placeholder="Ex: 200">
+            </div>
+            <div class="field">
+              <label for="cv-vendas">Vendas realizadas</label>
+              <input type="number" id="cv-vendas" inputmode="decimal" min="0" placeholder="Ex: 40">
+            </div>
+          </div>
+          <div class="result-row">
+            <span class="result-value" id="cv-result" aria-live="polite">0</span>
+            <span class="result-unit">% de conversão</span>
+          </div>
+          <div class="gauge" data-gauge="cv" data-min="0" data-max="50" data-t1="15" data-t2="30">
+            <div class="gauge-track">
+              <div class="gauge-zone gauge-zone--low"></div>
+              <div class="gauge-zone gauge-zone--mid"></div>
+              <div class="gauge-zone gauge-zone--high"></div>
+              <div class="gauge-marker"></div>
+            </div>
+            <div class="gauge-scale"><span>0%</span><span>50%+</span></div>
+          </div>
+          <div class="status-pill" id="cv-status" data-status-labels='["Perdendo venda no atendimento","Dentro da média do setor","Convertendo muito bem"]'>
+            <span class="dot"></span><span class="status-text">Preencha os campos acima</span>
+          </div>
+        </div>
+
+        <div class="support-head">
+          <span class="eyebrow"><span class="dot"></span>Entenda esse número</span>
+        </div>
+        <div class="panel-body" style="margin-top:var(--space-4)">
+          <p>A Taxa de Conversão mostra, de cada pessoa que entrou na loja, quantas realmente compraram. Ela revela a eficiência do atendimento e do ambiente de vendas. Uma conversão baixa significa que a loja recebe visitas, mas não consegue transformá-las em vendas.</p>
+        </div>
+
+        <div class="card example-card">
+          <div class="card-label">Exemplo prático</div>
+          <p style="margin-top:8px">Entraram 200 pessoas na semana. Foram realizadas 40 vendas.</p>
+          <p style="margin-top:4px">(40 ÷ 200) × 100 = Conversão de 20%</p>
+          <div class="result">Dentro da média do setor de moda</div>
+        </div>
+
+        <div class="range-list">
+          <div class="range-card low">
+            <span class="tag">Abaixo de 15%</span>
+            <div class="rc-text"><b>Muita gente entra, pouca compra</b><span>Pode ser vitrine fora de sintonia, atendimento lento ou produto não alinhado ao público.</span></div>
+          </div>
+          <div class="range-card mid">
+            <span class="tag">Entre 15% e 30%</span>
+            <div class="rc-text"><b>Dentro da média do varejo</b><span>A loja funciona, mas há espaço para crescer com mais qualidade na abordagem.</span></div>
+          </div>
+          <div class="range-card high">
+            <span class="tag">Acima de 30%</span>
+            <div class="rc-text"><b>Loja converte muito bem</b><span>O ambiente, o atendimento e o produto estão alinhados. Vale investir em mais fluxo.</span></div>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <span class="circle"><svg class="icon" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2Z"/></svg></span>
+          <p><b>Dica:</b> uma abordagem acolhedora nos primeiros 30 segundos após o cliente entrar pode aumentar bastante a conversão. Treine sua equipe para recepcionar, não para pressionar.</p>
+        </div>
+
+        <div class="benchmark">
+          <span class="num">25–35%</span>
+          <p>No varejo de moda física, lojas com boa performance de atendimento convertem entre 25% e 35% do fluxo em vendas. Lojas de alto desempenho chegam a 40% com consistência.</p>
+        </div>
+
+        <button class="btn btn-dark btn-full" type="button" data-jump="formula">
+          Próxima etapa: Fórmula
+          <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- PANEL FÓRMULA -->
+    <section class="panel" id="panel-formula" role="tabpanel" aria-labelledby="step-formula">
+      <div class="panel-inner">
+        <div class="panel-head-row">
+          <span class="eyebrow"><span class="dot"></span>Etapa 5 de 6</span>
+          <button class="back-link" type="button" data-jump="conversao">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Conversão
+          </button>
+        </div>
+        <div class="panel-head">
+          <h2>A fórmula do faturamento</h2>
+          <p class="sub">Essas métricas juntas explicam o seu faturamento</p>
+        </div>
+
+        <div class="calc-card" style="margin-top:var(--space-6)">
+          <div class="card-label">Calculadora</div>
+          <h2>Projete o faturamento da <span class="js-name">sua loja</span> agora</h2>
+          <p class="calc-formula-caption">Faturamento = Fluxo × Conversão × Ticket Médio</p>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="fm-fluxo">Fluxo (pessoas)</label>
+              <input type="number" id="fm-fluxo" inputmode="decimal" min="0" placeholder="Ex: 200">
+            </div>
+            <div class="field">
+              <label for="fm-conv">Conversão (%)</label>
+              <input type="number" id="fm-conv" inputmode="decimal" min="0" max="100" placeholder="Ex: 20">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="fm-ticket">Ticket Médio (R$)</label>
+              <input type="number" id="fm-ticket" inputmode="decimal" min="0" placeholder="Ex: 300">
+            </div>
+            <div class="field">
+              <label for="fm-pa">PA (peças/venda)</label>
+              <input type="number" id="fm-pa" inputmode="decimal" min="0" placeholder="Ex: 3">
+            </div>
+          </div>
+
+          <div class="result-row">
+            <span class="result-unit">R$</span>
+            <span class="result-value" id="fm-result" aria-live="polite">0</span>
+            <span class="result-unit">de faturamento projetado</span>
+          </div>
+          <p class="calc-note" id="fm-detail">Vendas estimadas: 0 · calculado a partir do fluxo e da conversão informados.</p>
+          <p class="calc-note" style="border-top:none;padding-top:0;margin-top:var(--space-3)">O PA já está refletido no seu Ticket Médio: quanto mais peças por atendimento, maior tende a ser o ticket. Ele não entra de novo na multiplicação para não contar o mesmo efeito duas vezes.</p>
+        </div>
+
+        <div class="support-head">
+          <span class="eyebrow"><span class="dot"></span>Entenda a fórmula</span>
+        </div>
+        <div class="panel-body" style="margin-top:var(--space-4)">
+          <p>Fluxo, conversão e ticket médio se conectam para formar o seu resultado do mês. A lógica poderosa aqui: você não precisa de mais clientes para faturar mais. Aumentar o PA de 2 para 3, ou o Ticket Médio de R$ 250 para R$ 300, já move o faturamento sem gastar um real a mais com divulgação.</p>
+        </div>
+
+        <div class="card example-card">
+          <div class="card-label">Exemplo do guia</div>
+          <p style="margin-top:8px">200 pessoas entraram · 20% converteram (40 compraram) · Ticket Médio R$ 300 · PA 3 peças</p>
+          <p style="margin-top:4px">200 × 20% × R$ 300 = R$ 12.000 de faturamento</p>
+        </div>
+
+        <div style="margin-top:var(--space-8)">
+          <span class="eyebrow"><span class="dot"></span>Pra colar na loja</span>
+          <h2 style="font-size:var(--text-2xl);margin-top:var(--space-3)">Resumo rápido</h2>
+          <p style="color:var(--ink-soft);margin-top:var(--space-2);font-size:var(--text-sm)">Anote a sua meta em cada métrica e acompanhe toda semana.</p>
+          <div class="recap-list">
+            <div class="recap-item">
+              <div class="rt"><b>PA</b><span>Peças ÷ Nº de vendas</span></div>
+              <div class="goal"><label for="goal-pa">Minha meta</label><input type="text" id="goal-pa" placeholder="Ex: 3,5 peças por venda"></div>
+            </div>
+            <div class="recap-item">
+              <div class="rt"><b>Ticket Médio</b><span>Faturamento ÷ Nº de vendas</span></div>
+              <div class="goal"><label for="goal-tk">Minha meta</label><input type="text" id="goal-tk" placeholder="Ex: R$ 350 por venda"></div>
+            </div>
+            <div class="recap-item">
+              <div class="rt"><b>Conversão</b><span>(Vendas ÷ Fluxo) × 100</span></div>
+              <div class="goal"><label for="goal-cv">Minha meta</label><input type="text" id="goal-cv" placeholder="Ex: 30% de conversão"></div>
+            </div>
+          </div>
+        </div>
+
+        <section class="final-cta" id="cta-final">
+          <span class="eyebrow"><span class="dot"></span>Quer ir além dessas métricas?</span>
+          <h2>Toda loja tem muito mais número pra olhar</h2>
+          <p>Calculamos PA, Ticket Médio e Conversão aqui, mas eles são só o começo. Margem, giro de estoque, custo de aquisição de cliente e rentabilidade por produto também pedem atenção.</p>
+          <p>Num Diagnóstico com a Evolving, a gente analisa todos os números do seu negócio com você, identifica os pontos de perda e mostra exatamente onde agir. Essa sessão é para lojistas que preenchem alguns requisitos.</p>
+          <button class="btn btn-lime" type="button" data-jump="diagnostico">
+            Agendar meu diagnóstico
+            <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </button>
+        </section>
+
+        <button class="btn btn-dark btn-full" type="button" data-jump="diagnostico">
+          Próxima etapa: agende seu diagnóstico
+          <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- PANEL AGENDE SEU DIAGNÓSTICO -->
+    <section class="panel" id="panel-diagnostico" role="tabpanel" aria-labelledby="step-diagnostico">
+      <div class="panel-inner">
+        <div class="panel-head-row">
+          <span class="eyebrow"><span class="dot"></span>Etapa 6 de 6</span>
+          <button class="back-link" type="button" data-jump="formula">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Fórmula
+          </button>
+        </div>
+        <div class="panel-head">
+          <h2>Agende seu diagnóstico</h2>
+          <p class="sub">Uma conversa pra olhar os números da sua loja com um especialista da Evolving</p>
+        </div>
+
+        <div class="panel-body" style="margin-top:var(--space-6)">
+          <p>Escolha o melhor dia e horário na agenda abaixo. Essa sessão é para lojistas que preenchem alguns requisitos, então a gente confirma sua vaga depois do agendamento.</p>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden;margin-top:var(--space-6)">
+          <div id="cal-inline-diagnostico" style="width:100%;min-height:680px;"></div>
+        </div>
+
+        <p style="margin-top:var(--space-4);font-size:var(--text-xs);color:var(--ink-faint);text-align:center">
+          O calendário não carregou? <a href="https://cal.com/evolving-business-school-yi4lyo/diagnostico-aplicacao-loja-de-roupas-h" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--ink-soft)">Agende em outra aba</a>.
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <span class="wordmark">Evolving Escola de Negócios</span>
+    <span class="url">evolvingescola.com.br</span>
+  </footer>
+</main>
+
+<div class="sticky-cta" id="stickyCta">
+  <button class="btn btn-dark btn-block" type="button" data-jump="diagnostico">
+    Agendar meu diagnóstico
+    <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+  </button>
+</div>
+</div><!-- /#pageContent -->
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- LEAD GATE ---------- */
+  var leadGate = document.getElementById('leadGate');
+  var leadForm = document.getElementById('leadForm');
+  var pageContent = document.getElementById('pageContent');
+
+  function formatPhoneBR(v){
+    v = v.replace(/\D/g,'').slice(0,11);
+    if(v.length === 0) return '';
+    if(v.length <= 2) return '(' + v;
+    if(v.length <= 3) return '(' + v.slice(0,2) + ') ' + v.slice(2);
+    if(v.length <= 7) return '(' + v.slice(0,2) + ') ' + v.slice(2,3) + ' ' + v.slice(3);
+    return '(' + v.slice(0,2) + ') ' + v.slice(2,3) + ' ' + v.slice(3,7) + '-' + v.slice(7,11);
+  }
+  var whatsappInput = document.getElementById('lg-whatsapp');
+  whatsappInput.addEventListener('input', function(){
+    whatsappInput.value = formatPhoneBR(whatsappInput.value);
+  });
+
+  /* text field error clearing */
+  ['lg-nome','lg-whatsapp','lg-instagram'].forEach(function(id){
+    var input = document.getElementById(id);
+    input.addEventListener('input', function(){
+      input.closest('.lg-field').classList.remove('has-error');
+    });
+  });
+
+  /* custom selects (faturamento / principal dor) */
+  Array.prototype.slice.call(document.querySelectorAll('.lg-select')).forEach(function(selectEl){
+    var btn = selectEl.querySelector('.lg-select-btn');
+    var valueSpan = selectEl.querySelector('.lg-select-value');
+    var list = selectEl.querySelector('.lg-select-list');
+    var hiddenInput = selectEl.querySelector('input[type="hidden"]');
+    var options = Array.prototype.slice.call(selectEl.querySelectorAll('li[role="option"]'));
+
+    function closeList(){
+      list.hidden = true;
+      btn.setAttribute('aria-expanded','false');
+      document.removeEventListener('click', onDocClick);
+    }
+    function openList(){
+      document.querySelectorAll('.lg-select-list').forEach(function(l){
+        if(l !== list && !l.hidden){
+          l.hidden = true;
+          l.closest('.lg-select').querySelector('.lg-select-btn').setAttribute('aria-expanded','false');
+        }
+      });
+      list.hidden = false;
+      btn.setAttribute('aria-expanded','true');
+      setTimeout(function(){ document.addEventListener('click', onDocClick); }, 0);
+    }
+    function onDocClick(e){
+      if(!selectEl.contains(e.target)){ closeList(); }
+    }
+    function selectOption(opt){
+      valueSpan.textContent = opt.textContent.trim();
+      valueSpan.classList.add('is-selected');
+      hiddenInput.value = opt.textContent.trim();
+      selectEl.classList.remove('has-error');
+      closeList();
+      btn.focus();
+    }
+
+    btn.addEventListener('click', function(){
+      if(list.hidden){ openList(); } else { closeList(); }
+    });
+    btn.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){ closeList(); }
+      if((e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') && list.hidden){
+        e.preventDefault(); openList();
+        if(options[0]) options[0].focus();
+      }
+    });
+    options.forEach(function(opt, idx){
+      opt.addEventListener('click', function(){ selectOption(opt); });
+      opt.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); selectOption(opt); }
+        else if(e.key === 'ArrowDown'){ e.preventDefault(); (options[idx+1] || options[0]).focus(); }
+        else if(e.key === 'ArrowUp'){ e.preventDefault(); (options[idx-1] || options[options.length-1]).focus(); }
+        else if(e.key === 'Escape'){ closeList(); btn.focus(); }
+      });
+    });
+  });
+
+  function validateLeadForm(){
+    var valid = true;
+    var firstInvalid = null;
+
+    var nomeField = document.getElementById('lg-nome');
+    if(!nomeField.value.trim()){
+      nomeField.closest('.lg-field').classList.add('has-error');
+      valid = false; firstInvalid = firstInvalid || nomeField;
+    }
+
+    var digits = whatsappInput.value.replace(/\D/g,'');
+    if(digits.length < 10){
+      whatsappInput.closest('.lg-field').classList.add('has-error');
+      valid = false; firstInvalid = firstInvalid || whatsappInput;
+    }
+
+    var igField = document.getElementById('lg-instagram');
+    if(!igField.value.trim()){
+      igField.closest('.lg-field').classList.add('has-error');
+      valid = false; firstInvalid = firstInvalid || igField;
+    }
+
+    Array.prototype.slice.call(document.querySelectorAll('.lg-select')).forEach(function(selectEl){
+      var hidden = selectEl.querySelector('input[type="hidden"]');
+      if(!hidden.value){
+        selectEl.classList.add('has-error');
+        valid = false; firstInvalid = firstInvalid || selectEl.querySelector('.lg-select-btn');
+      }
+    });
+
+    if(firstInvalid){ firstInvalid.focus(); }
+    return valid;
+  }
+
+  function applyPersonalization(nome){
+    var firstName = (nome || '').trim().split(/\s+/)[0] || '';
+    document.querySelectorAll('.js-name').forEach(function(el){
+      el.textContent = firstName ? ('loja de ' + firstName) : 'sua loja';
+    });
+    var greetSuffix = document.querySelector('.js-name-suffix');
+    if(greetSuffix && firstName){ greetSuffix.textContent = ', ' + firstName + '!'; }
+  }
+
+  function closeLeadGate(nome){
+    applyPersonalization(nome);
+    document.body.classList.remove('lead-gate-open');
+    leadGate.classList.add('is-closing');
+    pageContent.removeAttribute('inert');
+    setTimeout(function(){ leadGate.style.display = 'none'; }, 350);
+  }
+
+  leadForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!validateLeadForm()) return;
+
+    var nome = document.getElementById('lg-nome').value.trim();
+    var whatsapp = whatsappInput.value.trim();
+    var instagram = document.getElementById('lg-instagram').value.trim();
+    var faturamento = leadForm.querySelector('input[name="faturamento"]').value;
+    var dor = leadForm.querySelector('input[name="dor"]').value;
+    var params = new URLSearchParams(window.location.search);
+
+    var payload = {
+      nome: nome, whatsapp: whatsapp, instagram: instagram,
+      faturamento: faturamento, principal_dor: dor,
+      utm_source: params.get('utm_source') || '',
+      utm_medium: params.get('utm_medium') || '',
+      utm_campaign: params.get('utm_campaign') || '',
+      utm_content: params.get('utm_content') || '',
+      utm_term: params.get('utm_term') || '',
+      origem: 'metricas-lojista',
+      pagina: window.location.href
+    };
+
+    try{
+      fetch('https://webhook.trafegoedu.com.br/webhook/bbe3ef3e-6489-48d0-a5b4-56a83f975f99', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      }).catch(function(){});
+    }catch(err){}
+
+    if(typeof fbq === 'function'){
+      fbq('track', 'Lead', {content_name:'Guia de Métricas - Formulário'});
+    }
+
+    closeLeadGate(nome);
+  });
+
+  /* ---------- STEP NAVIGATION ---------- */
+  var stepButtons = Array.prototype.slice.call(document.querySelectorAll('.step-btn'));
+  var panels = {
+    intro: document.getElementById('panel-intro'),
+    pa: document.getElementById('panel-pa'),
+    ticket: document.getElementById('panel-ticket'),
+    conversao: document.getElementById('panel-conversao'),
+    formula: document.getElementById('panel-formula'),
+    diagnostico: document.getElementById('panel-diagnostico')
+  };
+
+  /* Cal.com inline embed: loaded lazily, only once the diagnóstico step
+     is opened for the first time (its container has zero size while
+     display:none, so initializing it earlier would break the layout). */
+  var calLoaded = false;
+  function loadCalEmbed(){
+    if(calLoaded) return;
+    calLoaded = true;
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    window.Cal("init", {origin:"https://cal.com"});
+    window.Cal("inline", {
+      elementOrSelector: "#cal-inline-diagnostico",
+      calLink: "evolving-business-school-yi4lyo/diagnostico-aplicacao-loja-de-roupas-h",
+      layout: "month_view"
+    });
+    window.Cal("ui", {hideEventTypeDetails:false, layout:"month_view"});
+  }
+
+  var stepsScroll = document.querySelector('.steps');
+  var fadeLeft = document.querySelector('.steps-fade--left');
+  var fadeRight = document.querySelector('.steps-fade--right');
+  function updateFades(){
+    var maxScroll = stepsScroll.scrollWidth - stepsScroll.clientWidth;
+    fadeLeft.style.opacity = stepsScroll.scrollLeft > 4 ? '1' : '0';
+    fadeRight.style.opacity = (maxScroll - stepsScroll.scrollLeft) > 4 ? '1' : '0';
+  }
+  stepsScroll.addEventListener('scroll', updateFades, {passive:true});
+  window.addEventListener('resize', updateFades);
+  updateFades();
+
+  function activateStep(key, opts){
+    opts = opts || {};
+    stepButtons.forEach(function(btn){
+      var active = btn.getAttribute('data-step') === key;
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+      if(active){
+        btn.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+      }
+    });
+    Object.keys(panels).forEach(function(k){
+      panels[k].classList.toggle('is-active', k === key);
+    });
+
+    var activeInner = panels[key].querySelector('.panel-inner');
+    activeInner.classList.remove('is-in');
+    void activeInner.offsetWidth; /* force reflow so the transition replays */
+    requestAnimationFrame(function(){ activeInner.classList.add('is-in'); });
+
+    if(key === 'diagnostico'){ loadCalEmbed(); }
+
+    if(opts.scroll !== false){
+      var stepsWrap = document.querySelector('.steps-wrap');
+      var y = stepsWrap.getBoundingClientRect().bottom + window.pageYOffset - 90;
+      window.scrollTo({top: Math.max(y,0), behavior: 'smooth'});
+    }
+    toggleSticky();
+  }
+
+  stepButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      activateStep(btn.getAttribute('data-step'));
+    });
+  });
+
+  document.querySelectorAll('[data-jump]').forEach(function(el){
+    el.addEventListener('click', function(){
+      activateStep(el.getAttribute('data-jump'));
+    });
+  });
+
+  var ctaFinalEl = document.getElementById('cta-final');
+
+  /* first render: trigger the fade-in on the initial panel too */
+  requestAnimationFrame(function(){
+    panels.intro.querySelector('.panel-inner').classList.add('is-in');
+  });
+
+  /* ---------- GAUGES ---------- */
+  function initGauge(root){
+    var min = parseFloat(root.getAttribute('data-min'));
+    var max = parseFloat(root.getAttribute('data-max'));
+    var t1 = parseFloat(root.getAttribute('data-t1'));
+    var t2 = parseFloat(root.getAttribute('data-t2'));
+    var zoneLow = root.querySelector('.gauge-zone--low');
+    var zoneMid = root.querySelector('.gauge-zone--mid');
+    var zoneHigh = root.querySelector('.gauge-zone--high');
+    var marker = root.querySelector('.gauge-marker');
+
+    var pct1 = ((t1-min)/(max-min))*100;
+    var pct2 = ((t2-min)/(max-min))*100;
+    zoneLow.style.width = pct1+'%';
+    zoneMid.style.width = (pct2-pct1)+'%';
+    zoneHigh.style.width = (100-pct2)+'%';
+
+    return {
+      min:min, max:max, t1:t1, t2:t2,
+      update:function(value){
+        var clamped = Math.max(min, Math.min(max, value));
+        var pct = ((clamped-min)/(max-min))*100;
+        marker.style.left = pct+'%';
+      }
+    };
+  }
+
+  var gauges = {};
+  document.querySelectorAll('[data-gauge]').forEach(function(el){
+    gauges[el.getAttribute('data-gauge')] = initGauge(el);
+  });
+
+  function setStatus(pillEl, value, t1, t2){
+    var labels = JSON.parse(pillEl.getAttribute('data-status-labels'));
+    var textEl = pillEl.querySelector('.status-text');
+    var dotEl = pillEl.querySelector('.dot');
+    var zone, color, bg;
+    if(value < t1){ zone = 0; color = 'var(--status-low)'; bg = 'var(--status-low-bg)'; }
+    else if(value < t2){ zone = 1; color = 'var(--status-mid)'; bg = 'var(--status-mid-bg)'; }
+    else { zone = 2; color = 'var(--status-high)'; bg = 'var(--status-high-bg)'; }
+    textEl.textContent = labels[zone];
+    pillEl.style.color = color;
+    pillEl.style.background = bg;
+    dotEl.style.background = color;
+  }
+
+  function numVal(id){
+    var el = document.getElementById(id);
+    var v = parseFloat(el.value.replace(',', '.'));
+    return isNaN(v) || v < 0 ? 0 : v;
+  }
+
+  function fmtInt(n){ return Math.round(n).toString(); }
+  function fmt1(n){ return n.toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}); }
+  function fmtMoney(n){ return Math.round(n).toLocaleString('pt-BR'); }
+
+  /* ---------- PA CALC ---------- */
+  function calcPA(){
+    var pecas = numVal('pa-pecas');
+    var vendas = numVal('pa-vendas');
+    var pa = vendas > 0 ? pecas / vendas : 0;
+    document.getElementById('pa-result').textContent = fmt1(pa);
+    gauges.pa.update(pa);
+    setStatus(document.getElementById('pa-status'), pa, gauges.pa.t1, gauges.pa.t2);
+  }
+  ['pa-pecas','pa-vendas'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', calcPA);
+  });
+
+  /* ---------- TICKET CALC ---------- */
+  function calcTicket(){
+    var fat = numVal('tk-fat');
+    var vendas = numVal('tk-vendas');
+    var tk = vendas > 0 ? fat / vendas : 0;
+    document.getElementById('tk-result').textContent = fmtMoney(tk);
+    gauges.tk.update(tk);
+    setStatus(document.getElementById('tk-status'), tk, gauges.tk.t1, gauges.tk.t2);
+  }
+  ['tk-fat','tk-vendas'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', calcTicket);
+  });
+
+  /* ---------- CONVERSÃO CALC ---------- */
+  function calcConv(){
+    var pessoas = numVal('cv-pessoas');
+    var vendas = numVal('cv-vendas');
+    var conv = pessoas > 0 ? (vendas / pessoas) * 100 : 0;
+    document.getElementById('cv-result').textContent = fmt1(conv);
+    gauges.cv.update(conv);
+    setStatus(document.getElementById('cv-status'), conv, gauges.cv.t1, gauges.cv.t2);
+  }
+  ['cv-pessoas','cv-vendas'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', calcConv);
+  });
+
+  /* ---------- FÓRMULA CALC ---------- */
+  function calcFormula(){
+    var fluxo = numVal('fm-fluxo');
+    var conv = numVal('fm-conv');
+    var ticket = numVal('fm-ticket');
+    var vendasEstimadas = fluxo * (conv/100);
+    var faturamento = vendasEstimadas * ticket;
+    document.getElementById('fm-result').textContent = fmtMoney(faturamento);
+    document.getElementById('fm-detail').textContent = 'Vendas estimadas: ' + fmtInt(vendasEstimadas) + ' · calculado a partir do fluxo e da conversão informados.';
+  }
+  ['fm-fluxo','fm-conv','fm-ticket','fm-pa'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', calcFormula);
+  });
+
+  /* ---------- STICKY MOBILE CTA ---------- */
+  var stickyCta = document.getElementById('stickyCta');
+  function toggleSticky(){
+    var scrolled = window.scrollY > 220;
+    var ctaVisible = false;
+    if(ctaFinalEl.offsetParent !== null){
+      var rect = ctaFinalEl.getBoundingClientRect();
+      ctaVisible = rect.top < window.innerHeight * 0.5;
+    }
+    stickyCta.classList.toggle('is-visible', scrolled && !ctaVisible);
+  }
+  window.addEventListener('scroll', toggleSticky, {passive:true});
+  toggleSticky();
+
+})();
+</script>
+</body>
+</html>
