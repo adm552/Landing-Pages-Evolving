@@ -322,6 +322,22 @@ footer{text-align:center; padding:32px 0 44px; font-size:11.5px; color:var(--ink
   .sticky-cta{display:none;}
 }
 </style>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1891172647930386');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -824,6 +840,35 @@ footer{text-align:center; padding:32px 0 44px; font-size:11.5px; color:var(--ink
     submitBtn.disabled = true;
     submitBtn.textContent = 'Abrindo agenda...';
     setProgress(3);
+
+    // grava o lead na planilha "Dados Leads" via JARVIS (canal primário).
+    // Pipedrive já pronto/desligado no servidor (religar 1 linha no JARVIS quando o João pedir).
+    try {
+      var g = function (id) { var el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; };
+      var inds = Array.prototype.slice.call(document.querySelectorAll('input[name="indicadores"]:checked')).map(function (c) { return c.value; }).join(', ');
+      var p = new URLSearchParams(location.search);
+      var utm = function (k) { return p.get(k) || ''; };
+      var lead = {
+        origem: 'Funil de Aplicação',
+        nome: nome,
+        whatsapp: g('whatsapp'),
+        instagram: g('instagram'),
+        faturamento: g('faturamento'),
+        equipe: g('equipe'),
+        dificuldade: g('dificuldade'),
+        tempo_loja: g('tempoLoja'),
+        indicadores: inds,
+        utm_source: utm('utm_source'),
+        utm_campaign: utm('utm_campaign'),
+        utm_medium: utm('utm_medium'),
+        utm_content: utm('utm_content'),
+        pagina: location.href
+      };
+      navigator.sendBeacon('https://jarvis.alunosev.shop/jarvis/leads', JSON.stringify(lead));
+    } catch (err) { /* não bloqueia o agendamento */ }
+
+    if (window.fbq) fbq('track', 'Lead');
+
     showBookingInline(nome);
   });
 </script>
