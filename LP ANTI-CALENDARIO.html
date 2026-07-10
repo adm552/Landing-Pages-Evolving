@@ -80,6 +80,22 @@
       *{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;}
     }
   </style>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1891172647930386');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -1414,8 +1430,30 @@
         }
         if (errorEl) errorEl.style.display = "none";
 
-        // TODO: enviar os dados para o Make/webhook aqui quando estiver pronto.
-        // var data = new FormData(leadForm);
+        // grava o lead na planilha "Dados Leads" via JARVIS (canal primário).
+        // O MESMO endpoint já tem o envio pro Pipedrive PRONTO no servidor, só DESLIGADO
+        // (é só religar a linha no JARVIS quando o João pedir) — nada a mudar aqui na LP.
+        try {
+          var g = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ""; };
+          var p = new URLSearchParams(location.search);
+          var utm = function (k) { return p.get(k) || ""; };
+          var lead = {
+            origem: "Anti-Calendário",
+            nome: g("lead-nome"),
+            whatsapp: g("lead-whatsapp"),
+            instagram: g("lead-instagram"),
+            faturamento: g("lead-faturamento"),
+            dor: g("lead-dor"),
+            utm_source: utm("utm_source"),
+            utm_campaign: utm("utm_campaign"),
+            utm_medium: utm("utm_medium"),
+            utm_content: utm("utm_content"),
+            pagina: location.href
+          };
+          navigator.sendBeacon("https://jarvis.alunosev.shop/jarvis/leads", JSON.stringify(lead));
+        } catch (err) { /* não bloqueia o checkout */ }
+
+        if (window.fbq) fbq('track', 'Lead');
 
         window.location.href = "https://pay.kirvano.com/3e3a8adc-bf16-4f02-b48b-74aee357721e";
       });
