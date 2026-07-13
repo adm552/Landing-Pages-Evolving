@@ -816,6 +816,16 @@ footer{text-align:center; padding:32px 0 44px; font-size:11.5px; color:var(--ink
   function showBookingInline(prefillName){
     const url = new URL(CAL_LINK);
     if(prefillName){ url.searchParams.set('name', prefillName); }
+    // Repassa as UTMs + click IDs da URL da LP PRA DENTRO do Cal.com. O Cal.com guarda esses
+    // parâmetros no "tracking" do booking e os manda no webhook do agendamento — sem isso, o
+    // agendamento chega SEM saber de qual anúncio o lead veio.
+    (function(){
+      var q = new URLSearchParams(location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function(k){
+        var v = q.get(k);
+        if(v) url.searchParams.set(k, v);
+      });
+    })();
     inlineFallbackLink.href = url.toString();
     inlineLoading.style.display = 'flex';
     inlineIframe.style.opacity = '0';
