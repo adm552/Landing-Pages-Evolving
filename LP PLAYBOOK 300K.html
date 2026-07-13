@@ -2693,6 +2693,9 @@
                         pagina: window.location.href,
                         data: new Date().toISOString(),
                     };
+                    // grava também no nosso Google Sheets "Dados Leads" via JARVIS (canal primário nosso)
+                    try { navigator.sendBeacon("https://jarvis.alunosev.shop/jarvis/leads", JSON.stringify(payload)); } catch (e) {}
+
                     fetch(WEBHOOK, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
