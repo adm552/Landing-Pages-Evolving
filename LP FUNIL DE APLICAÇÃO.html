@@ -841,14 +841,19 @@ footer{text-align:center; padding:32px 0 44px; font-size:11.5px; color:var(--ink
     submitBtn.textContent = 'Abrindo agenda...';
     setProgress(3);
 
-    // grava o lead na planilha "Dados Leads" via JARVIS (canal primário).
-    // Pipedrive já pronto/desligado no servidor (religar 1 linha no JARVIS quando o João pedir).
+    // Monta o pacote do lead: dados do form + TODAS as UTMs + click IDs (fbclid/gclid) +
+    // cookies do pixel (fbp/fbc, úteis pro CAPI). Dispara pro n8n do tráfego E pro nosso Sheets.
     try {
       var g = function (id) { var el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; };
       var inds = Array.prototype.slice.call(document.querySelectorAll('input[name="indicadores"]:checked')).map(function (c) { return c.value; }).join(', ');
       var p = new URLSearchParams(location.search);
-      var utm = function (k) { return p.get(k) || ''; };
-      var lead = {
+      var qp = function (k) { return p.get(k) || ''; };
+      var cookie = function (name) {
+        var m = document.cookie.match('(?:^|; )' + name + '=([^;]*)');
+        return m ? decodeURIComponent(m[1]) : '';
+      };
+      var CAL = 'https://cal.com/evolving-business-school-yi4lyo/diagnostico-aplicacao-loja-de-roupas-h';
+      var dados = {
         origem: 'Funil de Aplicação',
         nome: nome,
         whatsapp: g('whatsapp'),
@@ -858,13 +863,34 @@ footer{text-align:center; padding:32px 0 44px; font-size:11.5px; color:var(--ink
         dificuldade: g('dificuldade'),
         tempo_loja: g('tempoLoja'),
         indicadores: inds,
-        utm_source: utm('utm_source'),
-        utm_campaign: utm('utm_campaign'),
-        utm_medium: utm('utm_medium'),
-        utm_content: utm('utm_content'),
-        pagina: location.href
+        // UTMs completas
+        utm_source: qp('utm_source'),
+        utm_medium: qp('utm_medium'),
+        utm_campaign: qp('utm_campaign'),
+        utm_content: qp('utm_content'),
+        utm_term: qp('utm_term'),
+        // click IDs do anúncio
+        fbclid: qp('fbclid'),
+        gclid: qp('gclid'),
+        // cookies do pixel (Meta CAPI)
+        fbp: cookie('_fbp'),
+        fbc: cookie('_fbc'),
+        // contexto do checkout/destino (esta LP leva pro agendamento Cal.com, não a um checkout de pagamento)
+        destino: CAL,
+        pagina: location.href,
+        referrer: document.referrer || ''
       };
-      navigator.sendBeacon('https://jarvis.alunosev.shop/jarvis/leads', JSON.stringify(lead));
+
+      // 1) webhook do n8n (pedido do tráfego) — fetch JSON, keepalive pra não perder no unload
+      fetch('https://n8n.alunosev.shop/webhook/e317b0bc-f0d4-494d-af37-83355b20092a', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados),
+        keepalive: true
+      }).catch(function () { /* não bloqueia o agendamento */ });
+
+      // 2) nossa planilha "Dados Leads" via JARVIS (canal primário nosso; Pipedrive pronto/desligado)
+      navigator.sendBeacon('https://jarvis.alunosev.shop/jarvis/leads', JSON.stringify(dados));
     } catch (err) { /* não bloqueia o agendamento */ }
 
     if (window.fbq) fbq('track', 'Lead');
