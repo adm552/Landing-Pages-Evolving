@@ -1420,6 +1420,9 @@ body.lead-gate-open{overflow:hidden;}
       faturamento: faturamento, principal_dor: dor, submitted_at: new Date().toISOString()
     });
 
+    // grava também no nosso Google Sheets "Dados Leads" via JARVIS (canal primário nosso)
+    try{ navigator.sendBeacon('https://jarvis.alunosev.shop/jarvis/leads', JSON.stringify(payload)); }catch(e){}
+
     try{
       fetch('https://webhook.trafegoedu.com.br/webhook/bbe3ef3e-6489-48d0-a5b4-56a83f975f99', {
         method:'POST',
