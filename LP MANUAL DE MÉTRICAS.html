@@ -80,6 +80,7 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
 }
 
 *,*::before,*::after{box-sizing:border-box;}
+[hidden]{display:none !important;}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
 body{
   margin:0;
@@ -671,7 +672,7 @@ body.lead-gate-open{overflow:hidden;}
 <nav class="navbar">
   <div class="navbar-inner">
     <div class="wordmark">Evolving <span>Escola</span></div>
-    <button class="nav-cta" type="button" data-jump="diagnostico">
+    <button class="nav-cta" type="button" id="navCtaDiagnostico" data-jump="diagnostico">
       <span class="nav-cta-label">Agendar diagnóstico</span>
       <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
     </button>
@@ -1138,7 +1139,7 @@ body.lead-gate-open{overflow:hidden;}
           </button>
         </section>
 
-        <button class="btn btn-dark btn-full" type="button" data-jump="diagnostico">
+        <button class="btn btn-dark btn-full" type="button" id="nextStepDiagnosticoBtn" data-jump="diagnostico">
           Próxima etapa: agende seu diagnóstico
           <span class="circle"><svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </button>
@@ -1160,19 +1161,35 @@ body.lead-gate-open{overflow:hidden;}
           <p class="sub">Uma conversa pra olhar os números da sua loja com um especialista da Evolving</p>
         </div>
 
-        <div class="panel-body" style="margin-top:var(--space-6)">
-          <p>Escolha o melhor dia e horário na agenda abaixo. Essa sessão é para lojistas que preenchem alguns requisitos, então a gente confirma sua vaga depois do agendamento.</p>
+        <!-- Estado elegível: calendário -->
+        <div id="diag-eligible-group">
+          <div class="panel-body" style="margin-top:var(--space-6)">
+            <p>Escolha o melhor dia e horário na agenda abaixo. Essa sessão é para lojistas que preenchem alguns requisitos, então a gente confirma sua vaga depois do agendamento.</p>
+          </div>
+
+          <div class="card" style="padding:0;overflow:hidden;margin-top:var(--space-6)">
+            <div id="cal-inline-diagnostico" style="width:100%;min-height:680px;"></div>
+          </div>
+
+          <p style="margin-top:var(--space-4);font-size:var(--text-xs);color:var(--ink-faint);text-align:center">
+            O calendário não carregou? <a href="https://cal.com/evolving-business-school-yi4lyo/diagnostico-aplicacao-loja-de-roupas-h" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--ink-soft)">Agende em outra aba</a>.
+          </p>
         </div>
 
-        <div class="card" style="padding:0;overflow:hidden;margin-top:var(--space-6)">
-          <div id="cal-inline-diagnostico" style="width:100%;min-height:680px;"></div>
+        <!-- Estado não elegível: faturamento abaixo do mínimo -->
+        <div id="diag-not-eligible-group" hidden>
+          <div class="panel-body" style="margin-top:var(--space-6)">
+            <p>O Diagnóstico com a Evolving é voltado para lojas que já faturam a partir de <b>R$ 24.000,00 por mês</b> — é nesse estágio que a análise individual faz mais sentido.</p>
+          </div>
+          <div class="card" style="margin-top:var(--space-6)">
+            <div class="card-label">Pelo que você nos contou</div>
+            <p style="margin-top:8px">Sua loja ainda não está nessa faixa de faturamento. Mas as métricas que você acabou de calcular são exatamente o caminho pra chegar lá.</p>
+            <p style="margin-top:8px;color:var(--ink-soft)">Fique de olho no PA, no Ticket Médio e na Conversão nas próximas semanas. Assim que a loja bater esse faturamento, volte aqui pra agendar o seu diagnóstico.</p>
+          </div>
         </div>
-
-        <p style="margin-top:var(--space-4);font-size:var(--text-xs);color:var(--ink-faint);text-align:center">
-          O calendário não carregou? <a href="https://cal.com/evolving-business-school-yi4lyo/diagnostico-aplicacao-loja-de-roupas-h" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--ink-soft)">Agende em outra aba</a>.
-        </p>
       </div>
     </section>
+
 
   </div>
 
@@ -1196,8 +1213,32 @@ body.lead-gate-open{overflow:hidden;}
 
   /* ---------- LEAD GATE ---------- */
   var leadGate = document.getElementById('leadGate');
+  var leadFaturamento = '';
+  var notEligible = false;
+  var latestMetrics = {};
+  var MIN_ELIGIBLE_FATURAMENTO = 'Menos de R$24.000,00';
   var leadForm = document.getElementById('leadForm');
   var pageContent = document.getElementById('pageContent');
+  var submitBtn = leadForm.querySelector('.lg-submit');
+
+  /* Guarda o lead já enviado neste navegador, pra não pedir de novo
+     (e não gerar linha duplicada na planilha) numa próxima visita. */
+  var STORAGE_KEY = 'evolving_metricas_lead';
+  function getStoredLead(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
+  }
+  function setStoredLead(data){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }catch(e){}
+  }
+  function getOrCreateLeadId(){
+    var stored = getStoredLead();
+    if(stored && stored.lead_id) return stored.lead_id;
+    if(window.crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    return 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2,10);
+  }
 
   function formatPhoneBR(v){
     v = v.replace(/\D/g,'').slice(0,11);
@@ -1320,6 +1361,18 @@ body.lead-gate-open{overflow:hidden;}
     if(greetSuffix && firstName){ greetSuffix.textContent = ', ' + firstName + '!'; }
   }
 
+  function applyEligibilityUI(){
+    if(!notEligible) return;
+    var stepBtn = document.getElementById('step-diagnostico');
+    var navCta = document.getElementById('navCtaDiagnostico');
+    var nextBtn = document.getElementById('nextStepDiagnosticoBtn');
+    var ctaFinal = document.getElementById('cta-final');
+    if(stepBtn) stepBtn.hidden = true;
+    if(navCta) navCta.hidden = true;
+    if(nextBtn) nextBtn.hidden = true;
+    if(ctaFinal) ctaFinal.hidden = true;
+  }
+
   function closeLeadGate(nome){
     applyPersonalization(nome);
     document.body.classList.remove('lead-gate-open');
@@ -1330,17 +1383,28 @@ body.lead-gate-open{overflow:hidden;}
 
   leadForm.addEventListener('submit', function(e){
     e.preventDefault();
+    if(submitBtn.disabled) return; /* trava contra duplo clique/duplo enter */
     if(!validateLeadForm()) return;
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.65';
+    submitBtn.style.pointerEvents = 'none';
 
     var nome = document.getElementById('lg-nome').value.trim();
     var whatsapp = whatsappInput.value.trim();
+    var whatsappDigits = whatsapp.replace(/\D/g,'');
     var instagram = document.getElementById('lg-instagram').value.trim();
     var faturamento = leadForm.querySelector('input[name="faturamento"]').value;
+    leadFaturamento = faturamento;
+    notEligible = (faturamento === MIN_ELIGIBLE_FATURAMENTO);
+    applyEligibilityUI();
     var dor = leadForm.querySelector('input[name="dor"]').value;
     var params = new URLSearchParams(window.location.search);
+    var leadId = getOrCreateLeadId();
 
     var payload = {
-      nome: nome, whatsapp: whatsapp, instagram: instagram,
+      evento: 'lead_form',
+      lead_id: leadId,
+      nome: nome, whatsapp: whatsapp, whatsapp_digits: whatsappDigits, instagram: instagram,
       faturamento: faturamento, principal_dor: dor,
       utm_source: params.get('utm_source') || '',
       utm_medium: params.get('utm_medium') || '',
@@ -1350,6 +1414,11 @@ body.lead-gate-open{overflow:hidden;}
       origem: 'metricas-lojista',
       pagina: window.location.href
     };
+
+    setStoredLead({
+      lead_id: leadId, nome: nome, whatsapp: whatsapp, instagram: instagram,
+      faturamento: faturamento, principal_dor: dor, submitted_at: new Date().toISOString()
+    });
 
     try{
       fetch('https://webhook.trafegoedu.com.br/webhook/bbe3ef3e-6489-48d0-a5b4-56a83f975f99', {
@@ -1366,6 +1435,20 @@ body.lead-gate-open{overflow:hidden;}
     closeLeadGate(nome);
   });
 
+  /* Visitante recorrente no mesmo navegador: já temos os dados dele,
+     então pula o pop-up (evita pedir de novo e duplicar linha na planilha). */
+  (function checkReturningLead(){
+    var stored = getStoredLead();
+    if(!stored || !stored.nome) return;
+    leadFaturamento = stored.faturamento || '';
+    notEligible = (leadFaturamento === MIN_ELIGIBLE_FATURAMENTO);
+    document.body.classList.remove('lead-gate-open');
+    leadGate.style.display = 'none';
+    pageContent.removeAttribute('inert');
+    applyPersonalization(stored.nome);
+    applyEligibilityUI();
+  })();
+
   /* ---------- STEP NAVIGATION ---------- */
   var stepButtons = Array.prototype.slice.call(document.querySelectorAll('.step-btn'));
   var panels = {
@@ -1377,6 +1460,31 @@ body.lead-gate-open{overflow:hidden;}
     diagnostico: document.getElementById('panel-diagnostico')
   };
 
+  /* Monta o texto que vai pré-preencher "Observações adicionais" no Cal.com:
+     dados do lead + as métricas que a pessoa calculou na página. */
+  function buildBookingNotes(){
+    var lead = getStoredLead() || {};
+    var lines = [];
+    if(lead.nome) lines.push('Lead: ' + lead.nome);
+    if(lead.whatsapp) lines.push('WhatsApp: ' + lead.whatsapp);
+    if(lead.instagram) lines.push('Instagram: ' + lead.instagram);
+    if(lead.faturamento) lines.push('Faturamento informado: ' + lead.faturamento);
+    if(lead.principal_dor) lines.push('Principal dor: ' + lead.principal_dor);
+
+    var metricLines = [];
+    if(typeof latestMetrics.pa === 'number') metricLines.push('PA: ' + latestMetrics.pa.toFixed(1) + ' peças/venda');
+    if(typeof latestMetrics.ticket_medio === 'number') metricLines.push('Ticket Médio: R$ ' + Math.round(latestMetrics.ticket_medio));
+    if(typeof latestMetrics.conversao_pct === 'number') metricLines.push('Conversão: ' + latestMetrics.conversao_pct.toFixed(1) + '%');
+    if(typeof latestMetrics.faturamento_projetado === 'number') metricLines.push('Faturamento projetado: R$ ' + Math.round(latestMetrics.faturamento_projetado));
+
+    if(metricLines.length){
+      lines.push('');
+      lines.push('Métricas calculadas na página:');
+      lines = lines.concat(metricLines);
+    }
+    return lines.join('\n');
+  }
+
   /* Cal.com inline embed: loaded lazily, only once the diagnóstico step
      is opened for the first time (its container has zero size while
      display:none, so initializing it earlier would break the layout). */
@@ -1384,14 +1492,28 @@ body.lead-gate-open{overflow:hidden;}
   function loadCalEmbed(){
     if(calLoaded) return;
     calLoaded = true;
+    var lead = getStoredLead() || {};
     (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
     window.Cal("init", {origin:"https://cal.com"});
     window.Cal("inline", {
       elementOrSelector: "#cal-inline-diagnostico",
       calLink: "evolving-business-school-yi4lyo/diagnostico-aplicacao-loja-de-roupas-h",
-      layout: "month_view"
+      layout: "month_view",
+      config: {
+        name: lead.nome || '',
+        notes: buildBookingNotes()
+      }
     });
     window.Cal("ui", {hideEventTypeDetails:false, layout:"month_view"});
+  }
+
+  var eligibleGroup = document.getElementById('diag-eligible-group');
+  var notEligibleGroup = document.getElementById('diag-not-eligible-group');
+  function renderDiagnosticoStep(){
+    var eligible = leadFaturamento !== MIN_ELIGIBLE_FATURAMENTO;
+    eligibleGroup.hidden = !eligible;
+    notEligibleGroup.hidden = eligible;
+    if(eligible){ loadCalEmbed(); }
   }
 
   var stepsScroll = document.querySelector('.steps');
@@ -1424,7 +1546,7 @@ body.lead-gate-open{overflow:hidden;}
     void activeInner.offsetWidth; /* force reflow so the transition replays */
     requestAnimationFrame(function(){ activeInner.classList.add('is-in'); });
 
-    if(key === 'diagnostico'){ loadCalEmbed(); }
+    if(key === 'diagnostico'){ renderDiagnosticoStep(); }
 
     if(opts.scroll !== false){
       var stepsWrap = document.querySelector('.steps-wrap');
@@ -1509,6 +1631,39 @@ body.lead-gate-open{overflow:hidden;}
   function fmt1(n){ return n.toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}); }
   function fmtMoney(n){ return Math.round(n).toLocaleString('pt-BR'); }
 
+  /* ---------- SYNC DOS CÁLCULOS PRA PLANILHA ----------
+     Só dispara 1.5s depois que a pessoa para de digitar (debounce),
+     e só se o resultado for diferente do último já enviado — assim,
+     recalcular várias vezes não gera várias linhas na planilha.
+     Tudo carimbado com o mesmo lead_id, pra atualizar a MESMA linha
+     do lead em vez de criar uma nova a cada cálculo (isso precisa de
+     um passo de "update by lead_id" no n8n/Sheets, não "append"). */
+  var metricSyncTimers = {};
+  var lastSentMetricValues = {};
+  function syncMetric(metricKey, data){
+    clearTimeout(metricSyncTimers[metricKey]);
+    metricSyncTimers[metricKey] = setTimeout(function(){
+      var serialized = JSON.stringify(data);
+      if(lastSentMetricValues[metricKey] === serialized) return;
+      lastSentMetricValues[metricKey] = serialized;
+      var payload = Object.assign({
+        evento: 'calculo_metrica',
+        lead_id: getOrCreateLeadId(),
+        metrica: metricKey,
+        origem: 'metricas-lojista',
+        pagina: window.location.href,
+        timestamp: new Date().toISOString()
+      }, data);
+      try{
+        fetch('https://webhook.trafegoedu.com.br/webhook/bbe3ef3e-6489-48d0-a5b4-56a83f975f99', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        }).catch(function(){});
+      }catch(err){}
+    }, 1500);
+  }
+
   /* ---------- PA CALC ---------- */
   function calcPA(){
     var pecas = numVal('pa-pecas');
@@ -1517,6 +1672,10 @@ body.lead-gate-open{overflow:hidden;}
     document.getElementById('pa-result').textContent = fmt1(pa);
     gauges.pa.update(pa);
     setStatus(document.getElementById('pa-status'), pa, gauges.pa.t1, gauges.pa.t2);
+    if(pecas > 0 && vendas > 0){
+      latestMetrics.pa = pa;
+      syncMetric('pa', {pa: Number(pa.toFixed(2)), pecas_vendidas: pecas, vendas_realizadas: vendas});
+    }
   }
   ['pa-pecas','pa-vendas'].forEach(function(id){
     document.getElementById(id).addEventListener('input', calcPA);
@@ -1530,6 +1689,10 @@ body.lead-gate-open{overflow:hidden;}
     document.getElementById('tk-result').textContent = fmtMoney(tk);
     gauges.tk.update(tk);
     setStatus(document.getElementById('tk-status'), tk, gauges.tk.t1, gauges.tk.t2);
+    if(fat > 0 && vendas > 0){
+      latestMetrics.ticket_medio = tk;
+      syncMetric('ticket_medio', {ticket_medio: Number(tk.toFixed(2)), faturamento_dia: fat, vendas_realizadas: vendas});
+    }
   }
   ['tk-fat','tk-vendas'].forEach(function(id){
     document.getElementById(id).addEventListener('input', calcTicket);
@@ -1543,6 +1706,10 @@ body.lead-gate-open{overflow:hidden;}
     document.getElementById('cv-result').textContent = fmt1(conv);
     gauges.cv.update(conv);
     setStatus(document.getElementById('cv-status'), conv, gauges.cv.t1, gauges.cv.t2);
+    if(pessoas > 0 && vendas > 0){
+      latestMetrics.conversao_pct = conv;
+      syncMetric('conversao', {conversao_pct: Number(conv.toFixed(1)), pessoas_entraram: pessoas, vendas_realizadas: vendas});
+    }
   }
   ['cv-pessoas','cv-vendas'].forEach(function(id){
     document.getElementById(id).addEventListener('input', calcConv);
@@ -1553,10 +1720,19 @@ body.lead-gate-open{overflow:hidden;}
     var fluxo = numVal('fm-fluxo');
     var conv = numVal('fm-conv');
     var ticket = numVal('fm-ticket');
+    var pa = numVal('fm-pa');
     var vendasEstimadas = fluxo * (conv/100);
     var faturamento = vendasEstimadas * ticket;
     document.getElementById('fm-result').textContent = fmtMoney(faturamento);
     document.getElementById('fm-detail').textContent = 'Vendas estimadas: ' + fmtInt(vendasEstimadas) + ' · calculado a partir do fluxo e da conversão informados.';
+    if(fluxo > 0 && conv > 0 && ticket > 0){
+      latestMetrics.faturamento_projetado = faturamento;
+      syncMetric('formula_faturamento', {
+        fluxo: fluxo, conversao_pct: conv, ticket_medio: ticket, pa: pa,
+        vendas_estimadas: Number(vendasEstimadas.toFixed(1)),
+        faturamento_projetado: Number(faturamento.toFixed(2))
+      });
+    }
   }
   ['fm-fluxo','fm-conv','fm-ticket','fm-pa'].forEach(function(id){
     document.getElementById(id).addEventListener('input', calcFormula);
@@ -1565,6 +1741,7 @@ body.lead-gate-open{overflow:hidden;}
   /* ---------- STICKY MOBILE CTA ---------- */
   var stickyCta = document.getElementById('stickyCta');
   function toggleSticky(){
+    if(notEligible){ stickyCta.classList.remove('is-visible'); return; }
     var scrolled = window.scrollY > 220;
     var ctaVisible = false;
     if(ctaFinalEl.offsetParent !== null){
