@@ -7,8 +7,9 @@
 <link rel="icon" type="image/png" href="https://i.imgur.com/ZnyTcVk.png">
 <link rel="apple-touch-icon" href="https://i.imgur.com/ZnyTcVk.png">
 <title>Desafio dos 7 Dias · 7 estratégias prontas pra sua loja por R$7</title>
-<link rel="preconnect" href="https://use.typekit.net" crossorigin>
-<link rel="stylesheet" href="https://use.typekit.net/qow1asq.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue:#2563EB;--blue-deep:#1A3CFF;--blue-bright:#4F8EF7;
@@ -16,8 +17,8 @@
   --line-soft:rgba(13,15,40,.09);--line:rgba(22,20,14,.14);
   --amber:#EFA63B;--orange:#E2562B;--green-bright:#1FA463;
   --shadow-blue:0 22px 50px -24px rgba(37,99,235,.45);
-  --font-display:"parabolica",Georgia,serif;
-  --font-text:"parabolica-text",system-ui,sans-serif;
+  --font-display:"Urbanist",sans-serif;
+  --font-text:"Inter",system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -799,9 +800,6 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
         origem: 'Desafio 7 Dias',
         ...getUTMs()
       };
-
-      // grava também no nosso Google Sheets "Dados Leads" via JARVIS (canal primário nosso)
-      try{ navigator.sendBeacon("https://jarvis.alunosev.shop/jarvis/leads", JSON.stringify(payload)); }catch(e){}
 
       try{
         await fetch(WEBHOOK,{

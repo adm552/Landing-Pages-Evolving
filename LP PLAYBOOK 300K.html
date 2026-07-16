@@ -7,7 +7,9 @@
 <link rel="icon" type="image/png" href="https://i.imgur.com/xix5uzW.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<!-- Carrega fontes de forma não-bloqueante -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"></noscript>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -18,6 +20,7 @@ html{scroll-behavior:smooth}
   --red-glow:rgba(192,57,43,0.18);--red-glow-strong:rgba(192,57,43,0.35);
   --text:#f0f0f0;--text-2:#8a8a8a;--text-3:#555;
   --font:'Inter',system-ui,sans-serif;
+  --font-display:'Urbanist',system-ui,sans-serif;
 }
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::selection{background:var(--red);color:#fff}
@@ -331,6 +334,7 @@ footer{border-top:1px solid var(--border);padding:28px 40px;display:flex;align-i
 }
 
 /* MOTION */
+h1,h2,h3,.hero-numbers,.hero-sub-numbers,.pillar-num,.pillar-name,.author-name,.offer-v2-num,.offer-v2-cur,.form-title,.author-stat-num,.aud-title,.section-tag{font-family:var(--font-display)}
 .anim-fade{opacity:0;transform:translateY(12px);animation:fadeUp .7s ease forwards;animation-delay:var(--d,0s)}
 @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 .seg{display:inline-block;opacity:0;filter:blur(10px);transform:translateY(20px);animation:blurInUp .6s cubic-bezier(.22,1,.36,1) forwards}
@@ -380,10 +384,7 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
 
 <!-- GALERIA DOUT — segunda seção, fundo #080808 -->
 <div class="dout-gallery">
-<picture>
-    <source media="(max-width:640px)" srcset="https://i.ibb.co/DPy5Zmdg/Ativo-49-3x-8.png">
-    <img src="https://i.ibb.co/cS9sMYkn/Ativo-48-3x-8.png" alt="Loja Dout · Fernando de Souza" loading="lazy">
-  </picture>
+  <img src="https://i.ibb.co/gQjHJ8G/foto-lojas-desk.png" alt="Loja Dout · Fernando de Souza" loading="lazy">
 </div>
 
 <!-- PROBLEMA -->
@@ -464,7 +465,7 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
 <section>
   <span class="section-tag">quem construiu tudo isso</span>
   <div class="author-card">
-    <div class="author-photo"><img src="https://i.ibb.co/wZ4502gf/Camada-1.png" alt="Fernando de Souza"></div>
+    <div class="author-photo"><img src="https://i.ibb.co/xtRDKmgb/foto-fernando.jpg" alt="Fernando de Souza"></div>
     <div class="author-info">
       <div class="author-eyebrow">Criador do <strong>Hexa do Varejo</strong></div>
       <h3 class="author-name">Fernando<br>de Souza</h3>
@@ -691,9 +692,6 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
       pagina: window.location.href,
       data: new Date().toISOString()
     };
-    // grava também no nosso Google Sheets "Dados Leads" via JARVIS (canal primário nosso)
-    try{ navigator.sendBeacon("https://jarvis.alunosev.shop/jarvis/leads", JSON.stringify(payload)); }catch(e){}
-
     fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
     .then(function(){ window.location.href = KIRVANO; })
     .catch(function(){ window.location.href = KIRVANO; });
