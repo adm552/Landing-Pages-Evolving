@@ -802,7 +802,8 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
       };
 
       try{
-        await fetch(WEBHOOK,{
+        try{ navigator.sendBeacon("https://jarvis.alunosev.shop/jarvis/leads", JSON.stringify(payload)); }catch(e){}
+      await fetch(WEBHOOK,{
           method:'POST',
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify(payload)
