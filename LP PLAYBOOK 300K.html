@@ -33,7 +33,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border-2);background:var(--bg-2);padding:7px 16px;border-radius:100px;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-2);margin-bottom:36px;position:relative;z-index:3}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--red-2);box-shadow:0 0 6px var(--red-2);animation:blink 2s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
-.hero-numbers{font-size:clamp(40px,9vw,100px);font-weight:900;line-height:.95;letter-spacing:-0.04em;color:#fff;position:relative;z-index:3;margin-bottom:8px;white-space:nowrap}.hero-sub-numbers{font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:32px;position:relative;z-index:3}
+.hero-numbers{font-size:clamp(26px,5.2vw,62px);font-weight:900;line-height:1.05;letter-spacing:-0.02em;color:#fff;position:relative;z-index:3;margin-bottom:8px;white-space:nowrap}.hero-sub-numbers{font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:32px;position:relative;z-index:3}
 .hero h1{font-size:clamp(22px,3.5vw,36px);font-weight:300;line-height:1.3;color:#ccc;max-width:580px;margin-bottom:20px;position:relative;z-index:3}
 #heroHeadline .seg.is-line:last-child{font-weight:700;color:#fff}
 .hero-desc{font-size:15px;line-height:1.65;color:var(--text-2);max-width:440px;margin-bottom:44px;position:relative;z-index:3}
@@ -43,8 +43,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .btn-primary:hover .btn-arrow{transform:translateX(4px)}
 
 /* GALERIA DOUT */
-.dout-gallery{width:100%;background:var(--bg);padding:32px 24px;display:flex;justify-content:center}
+.dout-gallery{width:100%;background:var(--bg);padding:32px 24px;display:flex;flex-direction:column;align-items:center;gap:20px}
 .dout-gallery img{width:100%;max-width:760px;height:auto;display:block;border-radius:12px}
+.gallery-caption{max-width:560px;text-align:center;font-size:15px;line-height:1.6;color:var(--text-2)}
+.gallery-caption strong{color:#fff;font-weight:700}
 @media(max-width:640px){
   .dout-gallery{padding:16px 16px 0}
   .dout-gallery img{border-radius:10px}
@@ -242,8 +244,8 @@ footer{border-top:1px solid var(--border);padding:28px 40px;display:flex;align-i
   .hero::before{width:300px;height:300px}
   .badge{font-size:8px;padding:5px 10px;margin-bottom:14px;letter-spacing:0.08em;gap:6px}
   .badge-dot{width:5px;height:5px}
-  .hero-numbers{font-size:11vw;white-space:nowrap;line-height:.95;margin-bottom:10px;letter-spacing:-0.04em;text-align:center;overflow:hidden;width:100%}
-  .hero-numbers .seg.is-line{display:block;white-space:nowrap;font-size:clamp(36px,11vw,52px)}
+  .hero-numbers{font-size:10vw;white-space:nowrap;line-height:1.05;margin-bottom:10px;letter-spacing:-0.02em;text-align:center;overflow:hidden;width:100%}
+  .hero-numbers .seg.is-line{display:block;white-space:nowrap;font-size:clamp(30px,10vw,42px)}
   .hero-sub-numbers{font-size:9px;letter-spacing:0.06em;margin-bottom:14px}
   .hero h1{font-size:clamp(15px,4vw,20px);max-width:95%;margin-bottom:8px;line-height:1.35}
   #heroHeadline .seg.is-line:last-child{font-size:clamp(16px,4.3vw,21px)}
@@ -378,20 +380,21 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
   <div class="hero-numbers" id="heroNumbers" data-delay="0.2" data-stagger="0.035"></div>
   <p class="hero-sub-numbers" id="heroSub" data-delay="0.7" data-stagger="0.04" data-by="word"></p>
   <h1 id="heroHeadline" data-delay="1.1" data-stagger="0.18" data-by="line"></h1>
-  <p class="hero-desc anim-fade" style="--d:1.7s">6 decisões na ordem em que foram aplicadas e que mudaram minha realidade.</p>
-  <a href="#formulario" class="btn-primary anim-fade" style="--d:2s">Quero o playbook por R$27 <span class="btn-arrow">→</span></a>
+  <p class="hero-desc anim-fade" style="--d:1.7s">O que salva é a ordem das decisões. As 6 que uma loja seguiu pra sair do R$30 mil e chegar no R$300 mil — sem depender de mais tráfego.</p>
+  <a href="#formulario" class="btn-primary anim-fade" style="--d:2s">Quero entender a ordem por R$27 <span class="btn-arrow">→</span></a>
 </section>
 
 <!-- GALERIA DOUT — segunda seção, fundo #080808 -->
 <div class="dout-gallery">
   <img src="https://i.ibb.co/gQjHJ8G/foto-lojas-desk.png" alt="Loja Dout · Fernando de Souza" loading="lazy">
+  <p class="gallery-caption">A Dout aplicou essas 6 decisões e saiu de <strong>R$30 mil</strong> para <strong>R$300 mil</strong> por mês. Não é sobre ela. É sobre a ordem que ela seguiu.</p>
 </div>
 
 <!-- PROBLEMA -->
 <section>
-  <h2>Você acha que precisa de<br><span class="accent">mais cliente.</span></h2>
-  <p class="problem-text">De tráfego, de uma vendedora melhor ou de produto novo. <strong>Não precisa de nenhum desses, ainda.</strong></p>
-  <p class="problem-text">A maioria das lojas trava na mesma faixa por anos porque tenta resolver o problema errado. Trabalha mais, posta mais, anuncia mais e o número não sai do lugar.</p>
+  <h2>Você acha que o problema<br>é <span class="accent">vender mais.</span></h2>
+  <p class="problem-text">Mais tráfego, mais anúncio, mais post. <strong>O caixa continua no mesmo lugar.</strong></p>
+  <p class="problem-text">Porque o problema nunca foi vender pouco. Foi vender sem ordem — sem saber por qual decisão começar, e nessa dúvida, tentar todas ao mesmo tempo.</p>
   <div class="callout">Marketing amplifica o que existe, inclusive o caos.</div>
 </section>
 
@@ -505,6 +508,7 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
       <div class="form-field"><input type="text" id="f-nome" placeholder=" " autocomplete="name"><label for="f-nome">Nome</label></div>
       <div class="form-field"><input type="tel" id="f-whats" placeholder=" " autocomplete="tel" inputmode="tel" maxlength="16"><label for="f-whats">Whatsapp</label></div>
       <p class="phone-hint" id="phone-hint">Formato: (11) 9 1234-5678</p>
+      <div class="form-field"><input type="text" id="f-insta" placeholder=" "><label for="f-insta">Instagram da loja</label></div>
       <div class="form-field cselect" id="cs-fat" data-value="">
         <button type="button" class="cselect-trigger"><span class="cselect-value empty"></span></button>
         <label>Faturamento</label><span class="select-arrow">▾</span>
@@ -541,9 +545,9 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
 
 <!-- CTA FINAL -->
 <section class="cta-final">
-  <h2>Tudo que você precisa está<br><span style="color:var(--red-2)">na sequência certa.</span></h2>
-  <p class="lead-text">O playbook custa R$27. A jornada custou anos. Não confunda os dois.</p>
-  <a href="#formulario" class="btn-primary">Garantir meu playbook por R$27 <span class="btn-arrow">→</span></a>
+  <h2>O caixa não sobra por acaso.<br><span style="color:var(--red-2)">Sobra na ordem certa.</span></h2>
+  <p class="lead-text">O playbook custa R$27. Continuar no mesmo ciclo não custa nada — e é exatamente por isso que ele se repete.</p>
+  <a href="#formulario" class="btn-primary">Quero sair desse ciclo por R$27 <span class="btn-arrow">→</span></a>
 </section>
 
 <footer>
@@ -647,11 +651,12 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
 })();
 (function(){
   var WEBHOOK = 'https://webhook.trafegoedu.com.br/webhook/bbe3ef3e-6489-48d0-a5b4-56a83f975f99';
-  var KIRVANO = 'https://pay.assiny.com.br/db6a7f/node/pUDFBl';
+  var KIRVANO = 'https://pay.kirvano.com/9b628780-208b-4600-ae72-b4e1bcbe7627';
   var btn = document.getElementById('form-submit');
   if(!btn) return;
   var nome = document.getElementById('f-nome');
   var whats = document.getElementById('f-whats');
+  var insta = document.getElementById('f-insta');
   var fat = document.getElementById('cs-fat');
   var dor = document.getElementById('cs-dor');
   var consent = document.getElementById('f-consent');
@@ -670,6 +675,7 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
     if(nome.value.trim() === ''){ markInput(nome, true); ok = false; } else markInput(nome, false);
     if(!isValidPhone(whats.value)){ markInput(whats, true); if(phoneHint) phoneHint.classList.add('show'); ok = false; }
     else { markInput(whats, false); if(phoneHint) phoneHint.classList.remove('show'); }
+    if(insta.value.trim() === ''){ markInput(insta, true); ok = false; } else markInput(insta, false);
     if(!fat.dataset.value){ fat.classList.add('field-invalid'); ok = false; } else fat.classList.remove('field-invalid');
     if(!dor.dataset.value){ dor.classList.add('field-invalid'); ok = false; } else dor.classList.remove('field-invalid');
     var consentBox = consent.closest('.form-consent');
@@ -683,6 +689,7 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
     var payload = {
       nome: nome.value.trim(),
       whatsapp: whats.value.trim(),
+      instagram: insta.value.trim(),
       faturamento: fat.dataset.value,
       principal_dor: dor.dataset.value,
       utm_source: document.getElementById('utm_source').value || '',
@@ -692,12 +699,11 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
       pagina: window.location.href,
       data: new Date().toISOString()
     };
-    try{ navigator.sendBeacon("https://jarvis.alunosev.shop/jarvis/leads", JSON.stringify(payload)); }catch(e){}
     fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
     .then(function(){ window.location.href = KIRVANO; })
     .catch(function(){ window.location.href = KIRVANO; });
   });
-  [nome,whats].forEach(function(el){
+  [nome,whats,insta].forEach(function(el){
     el.addEventListener('input', function(){ markInput(el, false); if(err) err.classList.remove('show'); if(el===whats&&phoneHint) phoneHint.classList.remove('show'); });
   });
   consent.addEventListener('change', function(){ var cb=consent.closest('.form-consent'); if(consent.checked&&cb) cb.classList.remove('consent-invalid'); });
