@@ -755,7 +755,7 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
   // formulário: validação + webhook + Kirvano
   (function(){
     const WEBHOOK='https://webhook.trafegoedu.com.br/webhook/bbe3ef3e-6489-48d0-a5b4-56a83f975f99';
-    const KIRVANO='https://pay.assiny.com.br/0d0bb4/node/FNQjYW';
+    const KIRVANO='https://pay.kirvano.com/5712d633-51b2-4210-9182-19fa75052a75';
 
     const btn=document.getElementById('form-submit');
     if(!btn)return;
@@ -802,8 +802,7 @@ src="https://www.facebook.com/tr?id=1891172647930386&ev=PageView&noscript=1"
       };
 
       try{
-        try{ navigator.sendBeacon("https://jarvis.alunosev.shop/jarvis/leads", JSON.stringify(payload)); }catch(e){}
-      await fetch(WEBHOOK,{
+        await fetch(WEBHOOK,{
           method:'POST',
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify(payload)
