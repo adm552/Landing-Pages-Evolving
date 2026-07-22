@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Diagnóstico · Evolving</title>
+<meta name="description" content="Descubra onde a sua loja está perdendo dinheiro. 6 perguntas, diagnóstico na hora.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Archivo+Black&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-page:#EFEBE4;
+  --card:#FFFFFF;
+  --card-2:#FAF8F4;
+  --border:#E7E1D6;
+  --border-hover:#D9D0C0;
+  --accent:#D6503E;
+  --accent-2:#E8776A;
+  --accent-soft:rgba(214,80,62,.08);
+  --accent-soft-2:rgba(214,80,62,.16);
+  --text:#211D18;
+  --text-muted:#756D62;
+  --text-faint:#A79C8C;
+  --radius-card:20px;
+  --radius-sm:12px;
+  --shadow:0 24px 60px rgba(40,25,10,.14);
+  --maxw:900px;
+  --band-low:#B23D2E;
+  --band-low-bg:rgba(196,63,42,.12);
+  --band-mid:#8A6112;
+  --band-mid-bg:rgba(201,138,31,.16);
+  --band-high:#2E6E4C;
+  --band-high-bg:rgba(63,138,99,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:
+    radial-gradient(60% 50% at 8% 0%, rgba(214,80,62,.10), transparent 60%),
+    radial-gradient(50% 40% at 100% 100%, rgba(214,80,62,.06), transparent 60%),
+    var(--bg-page);
+  color:var(--text);
+  font-family:'Archivo',system-ui,sans-serif;
+  font-size:16px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  min-height:100dvh;
+  display:flex;justify-content:center;align-items:center;
+  padding:40px 20px env(calc(40px + env(safe-area-inset-bottom)));
+}
+.page{width:100%;max-width:var(--maxw);margin:auto}
+.app-card{
+  width:100%;background:var(--card);border-radius:var(--radius-card);
+  box-shadow:var(--shadow);border:1px solid var(--border);
+  padding:28px 28px 34px;position:relative;overflow:hidden;
+}
+
+/* ---------- topo ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:7px;font-family:'Archivo Black',sans-serif;font-size:14px;letter-spacing:.02em}
+.brand .star{color:var(--accent);font-size:15px}
+.chip{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.06em;color:var(--text-muted);background:var(--card-2);border:1px solid var(--border);border-radius:99px;padding:7px 13px}
+
+/* ---------- tipografia ---------- */
+.eyebrow{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+h1{font-family:'Archivo Black',sans-serif;font-size:clamp(26px,5vw,34px);line-height:1.06;letter-spacing:-.01em;margin-bottom:12px;text-wrap:balance}
+h2{font-family:'Archivo Black',sans-serif;font-size:clamp(20px,4vw,25px);line-height:1.14;letter-spacing:-.01em;margin-bottom:10px;text-wrap:balance}
+h3{font-family:'Archivo Black',sans-serif;font-size:15px;letter-spacing:.02em;margin-bottom:8px}
+p{color:var(--text-muted);margin-bottom:14px}
+p strong{color:var(--text);font-weight:600}
+.small{font-size:13px;color:var(--text-faint)}
+
+/* ---------- telas ---------- */
+.screen{display:none;animation:in .32s ease both}
+.screen.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.panel-standalone{max-width:520px;margin:0 auto;padding:12px 4px}
+
+/* ---------- stepper (sidebar + painel) ---------- */
+.stepper-shell.hidden-shell{display:none}
+.stepper-head{text-align:center;max-width:520px;margin:0 auto 26px}
+.stepper-head .eyebrow{justify-content:center;display:flex}
+.stepper-body{display:grid;grid-template-columns:196px 1fr;gap:28px;align-items:stretch}
+
+.steps-nav{list-style:none;display:flex;flex-direction:column}
+.step-item{display:flex;align-items:flex-start;gap:12px;padding-bottom:26px;position:relative}
+.step-item:not(:last-child)::after{
+  content:"";position:absolute;left:13px;top:28px;bottom:0;width:2px;background:var(--border);
+}
+.step-item.done:not(:last-child)::after{background:var(--accent)}
+.step-dot{
+  flex:none;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;
+  font-family:'Courier Prime',monospace;font-size:11px;font-weight:700;
+  background:var(--card-2);border:2px solid var(--border);color:var(--text-faint);
+  transition:.2s;
+}
+.step-item.current .step-dot{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 0 4px var(--accent-soft)}
+.step-item.done .step-dot{background:var(--accent);border-color:var(--accent);color:#fff}
+.step-label{font-size:13px;color:var(--text-faint);padding-top:5px;line-height:1.3}
+.step-item.current .step-label{color:var(--text);font-weight:600}
+.step-item.done .step-label{color:var(--text-muted)}
+
+/* acordeon de etapas (mobile) — colapsado mostra só a etapa atual */
+.steps-toggle{display:none}
+
+.step-panel{background:var(--card-2);border:1px solid var(--border);border-radius:16px;padding:24px 24px 28px;display:flex;flex-direction:column;justify-content:center}
+.step-panel .screen.on{width:100%}
+.step-progress{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.step-progress .bar{flex:1;margin-bottom:0}
+#stepcount{font-family:'Courier Prime',monospace;font-size:11px;color:var(--text-faint);letter-spacing:.06em;white-space:nowrap}
+
+.bar{height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .45s cubic-bezier(.4,0,.2,1)}
+
+/* ---------- opções ---------- */
+.opts{display:flex;flex-direction:column;gap:9px;margin:22px 0 8px}
+.opt{
+  display:flex;align-items:center;gap:13px;width:100%;text-align:left;cursor:pointer;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:14px 16px;color:var(--text);font:inherit;font-size:15px;
+  transition:border-color .15s,background .15s,transform .1s;
+}
+.opt:hover{border-color:var(--border-hover)}
+.opt:active{transform:scale(.994)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt .box{
+  flex:none;width:19px;height:19px;border:1.5px solid #CDC3B3;border-radius:5px;
+  display:grid;place-items:center;font-size:11px;color:#fff;transition:.15s;background:#fff;
+}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .box{background:var(--accent);border-color:var(--accent)}
+.opt.sel .box::after{content:"✓";font-weight:700}
+.opt.locked{opacity:.4;cursor:not-allowed}
+
+/* dropdown flutuante — reaproveita o mesmo .opt/.opts do resto da página, sem empurrar o layout */
+.dd{position:relative;margin-top:20px}
+.dd-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:14px 16px;cursor:pointer;font:inherit;font-size:15px;color:var(--text);
+  text-align:left;transition:border-color .15s,box-shadow .15s;
+}
+.dd-btn .dd-btn-label.placeholder{color:var(--text-faint)}
+.dd-btn:hover{border-color:var(--border-hover)}
+.dd-btn:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.dd-btn .chevron{flex:none;color:var(--text-faint);transition:transform .2s ease;font-size:12px;margin-left:10px}
+.dd-btn.open{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.dd-btn.open .chevron{transform:rotate(180deg)}
+
+.dd-menu{
+  position:fixed;z-index:9999;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  box-shadow:0 20px 44px rgba(40,25,10,.22);
+  padding:8px 6px 8px 8px;max-height:340px;overflow-y:auto;
+  margin:0!important;
+  opacity:0;transform:translateY(-6px) scale(.99);transform-origin:top center;
+  pointer-events:none;transition:opacity .16s ease,transform .16s ease;
+  scrollbar-width:thin;scrollbar-color:var(--border-hover) transparent;
+}
+.dd-menu.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.dd-menu .opt{padding:11px 12px;font-size:14.5px}
+.dd-menu::-webkit-scrollbar{width:7px}
+.dd-menu::-webkit-scrollbar-track{background:transparent}
+.dd-menu::-webkit-scrollbar-thumb{background:var(--border-hover);border-radius:99px}
+.dd-menu::-webkit-scrollbar-thumb:hover{background:var(--text-faint)}
+.dd-menu .opts{margin:0;gap:4px}
+
+/* ---------- inputs ---------- */
+.field{margin-bottom:16px}
+label{display:block;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:7px}
+input{
+  width:100%;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:14px 15px;color:var(--text);font:inherit;font-size:16px;
+}
+input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+input::placeholder{color:var(--text-faint)}
+.err{color:var(--accent);font-size:13px;margin-top:6px;display:none}
+.err.on{display:block}
+
+/* ---------- botões ---------- */
+.btn{
+  display:block;width:100%;cursor:pointer;border:none;border-radius:99px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-family:'Archivo Black',sans-serif;
+  font-size:14.5px;letter-spacing:.02em;padding:15px 20px;margin-top:20px;
+  box-shadow:0 12px 26px rgba(214,80,62,.28);
+  transition:filter .15s,transform .1s;
+}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:scale(.99)}
+.btn:focus-visible{outline:2px solid var(--text);outline-offset:3px}
+.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text);font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;padding:13px;box-shadow:none}
+.btn.ghost:hover{border-color:var(--border-hover);background:var(--card)}
+.back{background:none;border:none;color:var(--text-faint);font:inherit;font-size:13px;cursor:pointer;padding:10px 0;margin-top:6px}
+.back:hover{color:var(--text)}
+
+/* ---------- lista intro ---------- */
+.checks{list-style:none;margin:22px 0 6px;border-top:1px solid var(--border)}
+.checks li{display:flex;gap:12px;padding:13px 2px;border-bottom:1px solid var(--border);font-size:14.5px;color:var(--text-muted)}
+.checks li b{color:var(--text);font-weight:600}
+.checks li::before{content:"→";color:var(--accent);font-family:'Courier Prime',monospace}
+
+/* ---------- cupom / resultado ---------- */
+.receipt{
+  background:var(--card);color:var(--text);font-family:'Courier Prime',monospace;font-size:13.5px;
+  padding:26px 22px 28px;margin:24px 0 10px;position:relative;line-height:1.65;
+  border:1px solid var(--border);border-radius:var(--radius-card);
+}
+.receipt::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:var(--radius-card) var(--radius-card) 0 0;
+}
+.r-head{text-align:center;border-bottom:1px dashed var(--border);padding-bottom:12px;margin-bottom:16px;padding-top:6px}
+.r-head b{display:block;font-weight:700;letter-spacing:.14em;font-size:12px;color:var(--text)}
+.r-head span{font-size:11px;color:var(--text-faint)}
+
+/* nota geral — número de destaque, estilo "hero stat" */
+.score-total{text-align:center;padding-bottom:18px;margin-bottom:18px;border-bottom:1px dashed var(--border)}
+.score-total-label{display:block;font-family:'Courier Prime',monospace;font-size:10.5px;letter-spacing:.14em;color:var(--text-faint);margin-bottom:6px}
+.score-total-val{font-family:'Archivo Black',sans-serif;font-size:42px;line-height:1;letter-spacing:-.01em}
+.score-total-val small{font-family:'Courier Prime',monospace;font-size:15px;font-weight:400;color:var(--text-faint);margin-left:2px}
+.score-total-val.band-low{color:var(--band-low)}
+.score-total-val.band-mid{color:var(--band-mid)}
+.score-total-val.band-high{color:var(--band-high)}
+
+/* notas por área — linha + barra de progresso */
+.score-rows{display:flex;flex-direction:column;gap:15px;margin-bottom:6px}
+.score-row-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.score-label{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.04em;color:var(--text-muted)}
+.score-val{font-family:'Courier Prime',monospace;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
+.score-val.band-low{color:var(--band-low)}
+.score-val.band-mid{color:var(--band-mid)}
+.score-val.band-high{color:var(--band-high)}
+.score-bar{height:5px;border-radius:99px;background:var(--border);overflow:hidden}
+.score-fill{display:block;height:100%;border-radius:99px;width:0%;transition:width .8s cubic-bezier(.16,1,.3,1)}
+.score-fill.band-low{background:var(--band-low)}
+.score-fill.band-mid{background:var(--band-mid)}
+.score-fill.band-high{background:var(--band-high)}
+
+/* selo com mensagem adaptada à nota geral */
+.r-stamp{
+  margin-top:20px;border-radius:var(--radius-sm);padding:14px 16px;border:1px solid var(--border);background:var(--card-2);
+}
+.r-stamp strong{display:block;font-family:'Archivo',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.01em;margin-bottom:5px}
+.r-stamp span{display:block;font-family:'Archivo',sans-serif;font-size:12.5px;line-height:1.55;color:var(--text-muted)}
+.r-stamp.band-low{border-color:var(--band-low);background:var(--band-low-bg)}
+.r-stamp.band-low strong{color:var(--band-low)}
+.r-stamp.band-mid{border-color:var(--band-mid);background:var(--band-mid-bg)}
+.r-stamp.band-mid strong{color:var(--band-mid)}
+.r-stamp.band-high{border-color:var(--band-high);background:var(--band-high-bg)}
+.r-stamp.band-high strong{color:var(--band-high)}
+.r-foot{text-align:center;font-size:11px;color:var(--text-faint);margin-top:14px}
+
+.block{border:1px solid var(--border);border-radius:var(--radius-card);padding:18px;margin-bottom:12px;background:var(--card)}
+
+/* bloco do gargalo — trancado até o clique, com vidro fosco por cima */
+.diag-block{position:relative;overflow:hidden}
+.diag-content{transition:filter .45s ease,opacity .45s ease}
+.diag-block.locked .diag-content{filter:blur(9px);opacity:.85;user-select:none;pointer-events:none}
+.diag-overlay{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(250,248,244,.55);backdrop-filter:blur(3px) saturate(140%);-webkit-backdrop-filter:blur(3px) saturate(140%);
+  opacity:1;transition:opacity .35s ease;border-radius:var(--radius-card);
+}
+.diag-block:not(.locked) .diag-overlay{opacity:0;pointer-events:none}
+.diag-reveal-btn{
+  display:inline-flex;align-items:center;gap:9px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;
+  border:none;border-radius:99px;padding:13px 24px;font-family:'Archivo Black',sans-serif;
+  font-size:13.5px;letter-spacing:.02em;cursor:pointer;box-shadow:0 12px 26px rgba(214,80,62,.32);
+  transition:filter .15s,transform .1s;
+}
+.diag-reveal-btn:hover{filter:brightness(1.05)}
+.diag-reveal-btn:active{transform:scale(.97)}
+.diag-reveal-btn:focus-visible{outline:2px solid var(--text);outline-offset:3px}
+.block ol{margin:6px 0 0 0;padding-left:0;list-style:none;counter-reset:s}
+.block ol li{counter-increment:s;display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14.5px;color:var(--text-muted)}
+.block ol li:last-child{border:none;padding-bottom:0}
+.block ol li::before{content:counter(s,decimal-leading-zero);font-family:'Courier Prime',monospace;color:var(--accent);font-size:12px;padding-top:2px}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.tag{font-family:'Courier Prime',monospace;font-size:11.5px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 9px;color:var(--text-muted);background:var(--card-2)}
+
+.cta-wrap{border-top:1px solid var(--border);margin-top:26px;padding-top:24px}
+.dq{border-left:2px solid var(--accent);padding-left:16px;margin:18px 0}
+.hidden{display:none!important}
+
+/* ---------- spinner + percentual loading ---------- */
+.load-pct{
+  font-family:'Archivo Black',sans-serif;font-size:48px;text-align:center;
+  margin-top:22px;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+}
+.spinner{
+  width:30px;height:30px;border:2px solid var(--border);border-top-color:var(--accent);
+  border-radius:50%;animation:spin .8s linear infinite;margin:16px auto 0;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- shake (avançar sem seleção) ---------- */
+@keyframes shake{
+  0%,100%{transform:none}
+  20%{transform:translateX(-5px)}
+  40%{transform:translateX(5px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+.opts.shake{animation:shake .35s ease}
+
+/* ---------- contador multi-select ---------- */
+.sel-count{
+  font-family:'Courier Prime',monospace;font-size:11px;color:var(--text-faint);
+  letter-spacing:.08em;text-align:right;margin-bottom:4px;
+  transition:color .2s;
+}
+.sel-count.full{color:var(--accent)}
+
+/* ---------- calendário embutido ---------- */
+.cal-embed-wrap{width:100%;min-height:540px;margin-top:20px;border-radius:var(--radius-sm);overflow:hidden}
+.cal-loading{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  height:280px;font-family:'Courier Prime',monospace;font-size:12px;
+  color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--border);border-radius:var(--radius-sm);margin-top:20px;background:var(--card-2);
+}
+.cal-fallback{
+  text-align:center;padding:32px 24px;margin-top:20px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card-2);
+}
+.cal-fallback p{color:var(--text-muted)}
+.cal-fallback .btn{max-width:280px;margin-left:auto;margin-right:auto}
+
+/* ---------- responsivo ---------- */
+@media (max-width:680px){
+  .page{padding:20px 12px}
+  .app-card{padding:18px 14px 24px;border-radius:16px}
+  .stepper-head{text-align:left;margin-bottom:16px}
+  .stepper-head .eyebrow{justify-content:flex-start}
+  .stepper-body{grid-template-columns:1fr;gap:0}
+
+  /* sidebar vira acordeon: fechada mostra só a etapa atual */
+  .steps-nav-wrap{display:block}
+  .steps-toggle{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:12px 14px;cursor:pointer;margin-bottom:14px;font:inherit;color:var(--text);
+  }
+  .steps-toggle-info{display:flex;align-items:center;gap:11px;min-width:0}
+  .steps-toggle-dot{
+    flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
+    font-family:'Courier Prime',monospace;font-size:11px;font-weight:700;color:#fff;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  }
+  .steps-toggle-text{display:flex;flex-direction:column;gap:1px;text-align:left;min-width:0}
+  .steps-toggle-text strong{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .steps-toggle-text span{font-family:'Courier Prime',monospace;font-size:10.5px;color:var(--text-faint);letter-spacing:.06em}
+  .steps-toggle .chevron{flex:none;color:var(--text-faint);transition:transform .25s ease;font-size:12px}
+  .steps-toggle.open .chevron{transform:rotate(180deg)}
+
+  .steps-nav-collapse{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+  .steps-nav-collapse.open{grid-template-rows:1fr;margin-bottom:18px}
+  .steps-nav-collapse > .steps-nav{overflow:hidden;min-height:0;padding:2px 2px 4px;background:var(--card-2);border:1px solid var(--border);border-radius:var(--radius-sm)}
+  .steps-nav-collapse .step-item{padding:10px 12px}
+  .steps-nav-collapse .step-item:not(:last-child)::after{left:23px;top:38px}
+
+  .step-panel{padding:18px 16px 22px}
+}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="app-card">
+
+  <div class="topbar">
+    <div class="brand"><span class="star">★</span>Evolving</div>
+    <div class="chip">Diagnóstico gratuito</div>
+  </div>
+
+  <!-- 0 · INTRO -->
+  <section class="screen on panel-standalone" data-step="intro">
+    <div class="eyebrow">Diagnóstico gratuito · 2 min</div>
+    <h1>Descubra o que está travando o crescimento da sua loja</h1>
+    <p>Responde 6 perguntas e eu te mostro, na hora, onde o dinheiro da sua loja está parado, e os 3 passos pra começar a mover.</p>
+    <ul class="checks">
+      <li><span><b>O gargalo principal</b> da sua operação: onde o dinheiro está parando</span></li>
+      <li><span><b>Diagnóstico por área</b> com nota: estoque, caixa, venda e time</span></li>
+      <li><span><b>Plano de 3 passos</b> específicos pra sua realidade, pra aplicar agora</span></li>
+    </ul>
+    <button class="btn" data-go="nome">Fazer diagnóstico gratuito</button>
+    <p class="small" style="text-align:center;margin-top:12px">Exclusivo para donos de loja física de moda.</p>
+  </section>
+
+  <!-- STEPPER: sidebar com etapas + painel de conteúdo -->
+  <div class="stepper-shell hidden-shell" id="stepper-shell">
+    <div class="stepper-head">
+      <div class="eyebrow">Diagnóstico da loja</div>
+      <h1>Vamos montar o diagnóstico da sua loja</h1>
+      <p class="small">Responda as etapas abaixo pra receber seu resultado na hora.</p>
+    </div>
+
+    <div class="stepper-body">
+      <div class="steps-nav-wrap">
+        <button type="button" class="steps-toggle" id="steps-toggle" aria-expanded="false" aria-controls="steps-nav">
+          <span class="steps-toggle-info">
+            <span class="steps-toggle-dot" id="toggle-dot">1</span>
+            <span class="steps-toggle-text">
+              <strong id="toggle-label">Identificação</strong>
+              <span id="toggle-sub">Etapa 1 de 8</span>
+            </span>
+          </span>
+          <span class="chevron">⌄</span>
+        </button>
+        <div class="steps-nav-collapse" id="steps-nav-collapse">
+          <ul class="steps-nav" id="steps-nav"></ul>
+        </div>
+      </div>
+
+      <div class="step-panel">
+        <div class="step-progress">
+          <div class="bar"><i id="bar"></i></div>
+          <span id="stepcount"></span>
+        </div>
+
+        <!-- 1 · IDENTIFICAÇÃO -->
+        <section class="screen" data-step="nome">
+          <h2>Primeiro, como te chamo?</h2>
+          <div class="field" style="margin-top:20px">
+            <label for="i-nome">Seu nome</label>
+            <input id="i-nome" type="text" autocomplete="given-name" placeholder="Digite o seu nome">
+            <div class="err" id="e-nome">Preciso do seu nome pra continuar.</div>
+          </div>
+          <button class="btn" id="b-nome">Avançar</button>
+        </section>
+
+        <!-- 2 · GATE: É DONO -->
+        <section class="screen" data-step="dono">
+          <h2 id="h-dono">Você é dono(a) de loja de roupas?</h2>
+          <div class="opts" id="o-dono"></div>
+          <button class="back" data-back="nome">← Voltar</button>
+        </section>
+
+        <!-- 3 · GATE: FATURAMENTO -->
+        <section class="screen" data-step="faturamento">
+          <h2 id="h-fat">Qual o faturamento médio mensal da loja?</h2>
+          <p class="small">Média dos últimos 3 meses, faturamento bruto.</p>
+          <div class="dd" id="dd-faturamento">
+            <button type="button" class="dd-btn" id="dd-btn-faturamento" aria-haspopup="listbox" aria-expanded="false">
+              <span class="dd-btn-label placeholder" id="dd-label-faturamento">Toque para escolher a faixa</span>
+              <span class="chevron">⌄</span>
+            </button>
+            <div class="dd-menu" id="dd-menu-faturamento" role="listbox">
+              <div class="opts" id="o-faturamento"></div>
+            </div>
+          </div>
+          <button class="back" data-back="dono">← Voltar</button>
+        </section>
+
+        <!-- 4..6 · PERGUNTAS -->
+        <section class="screen" data-step="tempo">
+          <h2>Há quanto tempo a sua loja existe?</h2>
+          <div class="opts" id="o-tempo"></div>
+          <button class="back" data-back="faturamento">← Voltar</button>
+        </section>
+
+        <section class="screen" data-step="equipe">
+          <h2>Quantas pessoas trabalham com você hoje?</h2>
+          <div class="opts" id="o-equipe"></div>
+          <button class="back" data-back="tempo">← Voltar</button>
+        </section>
+
+        <section class="screen" data-step="dores">
+          <h2>O que mais trava a sua loja hoje?</h2>
+          <p class="small">Selecione até 3, as que mais doem.</p>
+          <div class="dd" id="dd-dores">
+            <button type="button" class="dd-btn" id="dd-btn-dores" aria-haspopup="listbox" aria-expanded="false">
+              <span class="dd-btn-label placeholder" id="dd-label-dores">Toque para escolher até 3</span>
+              <span class="chevron">⌄</span>
+            </button>
+            <div class="dd-menu" id="dd-menu-dores" role="listbox">
+              <div class="sel-count" id="count-dores">0 / 3 selecionadas</div>
+              <div class="opts" id="o-dores"></div>
+            </div>
+          </div>
+          <button class="btn" id="b-dores">Avançar</button>
+          <button class="back" data-back="equipe">← Voltar</button>
+        </section>
+
+        <section class="screen" data-step="indicadores">
+          <h2>Quais indicadores você acompanha?</h2>
+          <p class="small">Pode marcar mais de um.</p>
+          <div class="sel-count" id="count-indicadores">0 selecionado(s)</div>
+          <div class="opts" id="o-indicadores"></div>
+          <button class="btn" id="b-indicadores">Avançar</button>
+          <button class="back" data-back="dores">← Voltar</button>
+        </section>
+
+        <section class="screen" data-step="contato">
+          <h2 id="h-contato">Pra onde eu mando o seu diagnóstico?</h2>
+          <p class="small">O resultado aparece aqui na tela em seguida. O contato é pra eu analisar o perfil da loja e te mandar o material.</p>
+          <div class="field" style="margin-top:20px">
+            <label for="i-zap">WhatsApp</label>
+            <input id="i-zap" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(00) 00000-0000">
+            <div class="err" id="e-zap">Digite um WhatsApp válido com DDD.</div>
+          </div>
+          <div class="field">
+            <label for="i-insta">Instagram da loja</label>
+            <input id="i-insta" type="text" autocomplete="off" placeholder="@sualoja">
+            <div class="err" id="e-insta">Digite o @ da sua loja.</div>
+          </div>
+          <button class="btn" id="b-contato">Ver meu diagnóstico</button>
+          <button class="back" data-back="indicadores">← Voltar</button>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 · PROCESSANDO -->
+  <section class="screen panel-standalone" data-step="loading">
+    <div class="eyebrow">Gerando diagnóstico</div>
+    <h2 id="h-load">Analisando o perfil da sua loja…</h2>
+    <div class="load-pct" id="load-pct">0%</div>
+    <div class="spinner"></div>
+    <p class="small" id="load-log" style="font-family:'Courier Prime',monospace;white-space:pre-line;margin-top:18px"></p>
+  </section>
+
+  <!-- 10 · RESULTADO -->
+  <section class="screen panel-standalone" data-step="resultado" style="max-width:560px">
+    <div class="eyebrow">Diagnóstico concluído</div>
+    <h2 id="h-res">Este é o diagnóstico da sua loja</h2>
+    <div class="receipt" id="receipt"></div>
+    <div class="diag-block locked" id="diag-block">
+      <div class="diag-content" id="diag-content">
+        <div class="block">
+          <h3 id="diag-title">O gargalo principal</h3>
+          <p id="diag-text" style="margin:0"></p>
+          <div class="tags" id="diag-tags"></div>
+        </div>
+        <div class="block">
+          <h3>O que resolver primeiro</h3>
+          <ol id="diag-steps"></ol>
+        </div>
+      </div>
+      <div class="diag-overlay">
+        <button type="button" class="diag-reveal-btn" id="diag-reveal-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Abrir diagnóstico
+        </button>
+      </div>
+    </div>
+    <div class="cta-wrap">
+      <h2>Para cada gargalo que você declarou aqui, nosso especialista monta seu plano personalizado</h2>
+      <p>O quê fazer, como fazer e quando fazer. Em até 30 dias você já tem aumento de faturamento. É só agendar.</p>
+      <button class="btn" id="b-agendar">Quero agendar meu diagnóstico</button>
+      <button class="btn ghost" id="b-skip">Quero apenas meu material</button>
+    </div>
+  </section>
+
+  <!-- 12 · AGENDAMENTO -->
+  <section class="screen panel-standalone" data-step="agenda" style="max-width:560px">
+    <div class="eyebrow">Plano confirmado</div>
+    <h2 id="h-agenda">Escolhe o melhor horário</h2>
+    <p>Na sessão você recebe o plano específico pra realidade da sua loja: <strong>quando</strong>, <strong>como</strong> e <strong>o que</strong> resolver primeiro para crescer com consistência.</p>
+    <div class="cal-loading" id="cal-loading"><span>→ carregando agenda…</span></div>
+    <div id="cal-embed" class="cal-embed-wrap hidden"></div>
+    <div id="cal-fallback" class="cal-fallback hidden">
+      <p style="margin:0 0 14px">Não consegui carregar o calendário aqui.</p>
+      <a class="btn" href="#" target="_blank" rel="noopener" id="b-zap-fallback" style="text-align:center;text-decoration:none">Agendar pelo WhatsApp</a>
+    </div>
+    <p class="small" style="text-align:center;margin-top:14px">Se a agenda não carregar, chama no WhatsApp: <a id="b-zap" href="#" target="_blank" rel="noopener" style="color:var(--accent)">falar com o time</a>.</p>
+  </section>
+
+  <!-- 13 · SAÍDAS -->
+  <section class="screen panel-standalone" data-step="nutricao">
+    <div class="eyebrow">Material confirmado</div>
+    <h2 id="h-nut">Beleza, registrei tudo</h2>
+    <p>Vou mandar no seu WhatsApp o material sobre os pontos que você identificou aqui. Quando quiser avançar com o plano completo, é só responder.</p>
+    <a class="btn ghost" href="https://instagram.com/_fernandodsouza" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">Seguir @_fernandodsouza</a>
+  </section>
+
+  <section class="screen panel-standalone" data-step="dq-dono">
+    <div class="eyebrow">Fora do perfil</div>
+    <h2>O diagnóstico é só pra dono de loja</h2>
+    <div class="dq"><p style="margin:0">A análise é feita com quem decide compra, preço e meta. Sem essa caneta na mão, as soluções não têm como ser aplicadas.</p></div>
+    <p>Mas o conteúdo é aberto: tem muito no Instagram que se aplica direto no balcão.</p>
+    <a class="btn" href="https://instagram.com/_fernandodsouza" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">Seguir @_fernandodsouza</a>
+  </section>
+
+  <section class="screen panel-standalone" data-step="dq-fat">
+    <div class="eyebrow">Fora do perfil</div>
+    <h2 id="h-dqfat">Ainda não é o momento certo</h2>
+    <div class="dq"><p style="margin:0">A Evolving atende lojas a partir de <strong>R$25 mil de faturamento mensal</strong>. Abaixo disso o acompanhamento não paga o próprio custo, e eu não vou te vender algo que não te dá retorno.</p></div>
+    <p>O caminho agora é volume de venda e recompra. Isso a gente entrega de graça no Instagram.</p>
+    <a class="btn" href="https://instagram.com/_fernandodsouza" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">Seguir @_fernandodsouza</a>
+  </section>
+
+</div>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURAÇÃO — troque estes 3 valores
+   ========================================================= */
+const CONFIG = {
+  WEBHOOK_URL: "",                                  // endpoint que recebe o lead (n8n, Make, Zapier, CRM…)
+  CAL_URL: "https://cal.com/evolving-business-school-yi4lyo/diagnostico-aplicacao-loja-de-roupas-h",
+  WHATSAPP: "5599999999999",                        // número do time (só dígitos, com DDI)
+  META_PIXEL: true                                  // dispara fbq se o pixel estiver na página
+};
+
+/* =========================================================
+   PERGUNTAS E PESOS (espelhados do fluxo do Typebot)
+   ========================================================= */
+const Q = {
+  dono:[
+    {t:"Sim, sou dono(a)",v:"dono",ok:true},
+    {t:"Sou gerente ou funcionário(a)",v:"gerente",ok:false},
+    {t:"Não tenho loja de roupas",v:"nao",ok:false}
+  ],
+  faturamento:[
+    {t:"Menos de R$25.000",v:"<25k",p:1,ok:false},
+    {t:"R$25.000 a R$34.000",v:"25-34k",p:5},
+    {t:"R$35.000 a R$40.000",v:"35-40k",p:8},
+    {t:"R$41.000 a R$50.000",v:"41-50k",p:10},
+    {t:"R$51.000 a R$70.000",v:"51-70k",p:11},
+    {t:"R$71.000 a R$100.000",v:"71-100k",p:12},
+    {t:"R$101.000 a R$150.000",v:"101-150k",p:13},
+    {t:"R$151.000 a R$200.000",v:"151-200k",p:14},
+    {t:"Mais de R$200.000",v:">200k",p:15}
+  ],
+  tempo:[
+    {t:"Menos de 1 ano",v:"<1a",p:1},
+    {t:"1 a 3 anos",v:"1-3a",p:2},
+    {t:"3 a 7 anos",v:"3-7a",p:4},
+    {t:"Mais de 7 anos",v:">7a",p:6}
+  ],
+  equipe:[
+    {t:"Só eu",v:"so_eu",p:1},
+    {t:"1 a 2 funcionários",v:"1-2",p:2},
+    {t:"3 a 5 funcionários",v:"3-5",p:3},
+    {t:"Mais de 5 funcionários",v:">5",p:4}
+  ],
+  dores:[
+    {t:"Vendo bastante, mas no fim do mês não sobra dinheiro",v:"nao_sobra",p:2,g:"caixa"},
+    {t:"Não sei se a loja está dando lucro de verdade",v:"sem_lucro",p:2,g:"caixa"},
+    {t:"Estoque parado consumindo meu dinheiro",v:"estoque",p:4,g:"estoque"},
+    {t:"Não tenho controle do financeiro",v:"financeiro",p:4,g:"caixa"},
+    {t:"Cliente entra e não compra, venda fraca",v:"venda_fraca",p:4,g:"venda"},
+    {t:"Dependo de promoção e desconto pra vender",v:"desconto",p:4,g:"venda"},
+    {t:"Minha equipe não vende sem mim",v:"equipe_dep",p:7,g:"time"},
+    {t:"Não sei como cobrar e liderar o time",v:"lideranca",p:7,g:"time"},
+    {t:"Não tenho clareza dos números pra decidir",v:"sem_numeros",p:7,g:"gestao"},
+    {t:"A operação depende da minha presença",v:"dependencia",p:10,g:"time"},
+    {t:"Cresci, mas perdi o controle da operação",v:"perdi_controle",p:13,g:"gestao"},
+    {t:"Falta papel e responsabilidade definidos",v:"papeis",p:15,g:"gestao"}
+  ],
+  indicadores:[
+    {t:"Faturamento total",v:"faturamento",p:2},
+    {t:"Ticket médio",v:"ticket",p:2},
+    {t:"Peças por atendimento",v:"pa",p:2},
+    {t:"Lucro da operação",v:"lucro",p:2},
+    {t:"Meta x realizado",v:"meta",p:2},
+    {t:"Nenhum desses",v:"nenhum",p:0,solo:true}
+  ],
+  maturidade:[
+    {t:"No feeling, na experiência e na intuição",v:"feeling",p:20},
+    {t:"Olho alguns números, mas decido no feeling",v:"misto",p:12},
+    {t:"Tenho processo e uso dados pra decidir",v:"dados",p:6}
+  ],
+  intencao:[
+    {t:"Acompanhamento e método pra implantar",v:"acompanhamento",p:20},
+    {t:"Um sistema de gestão",v:"sistema",p:12},
+    {t:"Não sei, preciso entender melhor",v:"nao_sei",p:8},
+    {t:"Um curso pra assistir",v:"curso",p:4},
+    {t:"Só conteúdo gratuito",v:"gratuito",p:0}
+  ]
+};
+
+const MAX = {faturamento:15,tempo:6,equipe:4,indicadores:10,dores:38};
+const TOTAL_MAX = Object.values(MAX).reduce((a,b)=>a+b,0); // 73
+
+/* Diagnóstico por gargalo dominante */
+const DIAG = {
+  estoque:{
+    title:"Seu dinheiro está pendurado na arara",
+    text:"O gargalo da sua loja é <strong>giro</strong>. Você compra, o produto entra, mas o capital não volta no prazo. Enquanto o estoque velho ocupa a arara, o novo não tem espaço nem caixa pra entrar, e a loja passa a viver de promoção pra respirar.",
+    steps:["Separe o estoque por idade: até 30, 60 e mais de 90 dias na loja.","Defina um preço de saída pro que passou de 90 dias. Peça parada não é patrimônio, é dinheiro travado.","Antes da próxima compra, calcule quanto precisa girar pra bancar o pedido sem tirar do caixa."]
+  },
+  caixa:{
+    title:"Você fatura, mas não sabe pra onde vai",
+    text:"O gargalo da sua loja é <strong>margem e controle financeiro</strong>. O faturamento existe, o lucro é incerto. Sem separar pró-labore, custo fixo e custo da mercadoria, cada mês vira uma aposta e a decisão de compra é feita no escuro.",
+    steps:["Separe conta pessoa física de conta da loja. Sem isso, nenhum número é confiável.","Levante o custo fixo mensal e descubra seu ponto de equilíbrio: quanto a loja precisa vender só pra empatar.","Confira o markup real de 10 produtos que você mais vende. Provavelmente 3 deles estão vendendo no prejuízo."]
+  },
+  venda:{
+    title:"Entra gente, mas a conversão não acontece",
+    text:"O gargalo da sua loja é <strong>processo de venda</strong>. O movimento existe, a abordagem não é padronizada, e o desconto vira a única ferramenta pra fechar. Isso queima margem e ensina o cliente a esperar liquidação.",
+    steps:["Meça peças por atendimento por vendedor durante 15 dias. É o número que mais rápido levanta faturamento.","Padronize a abordagem e a segunda oferta. Todo mundo vendendo do mesmo jeito, não do jeito de cada um.","Crie meta diária por vendedor, visível na loja. Meta mensal só assusta no dia 28."]
+  },
+  time:{
+    title:"A loja funciona porque você está dentro dela",
+    text:"O gargalo da sua loja é <strong>dependência do dono</strong>. Você é vendedor, comprador, gerente e financeiro ao mesmo tempo. A operação até roda, mas roda na sua energia, e por isso não escala nem te dá folga.",
+    steps:["Escreva a rotina de abertura, meio e fechamento do dia. O que está na sua cabeça, ninguém consegue executar.","Defina um responsável por meta do dia, mesmo com equipe de uma pessoa.","Faça um alinhamento semanal de 20 minutos com número na mão: meta, realizado, o que muda essa semana."]
+  },
+  gestao:{
+    title:"Você cresceu mais rápido que a sua estrutura",
+    text:"O gargalo da sua loja é <strong>gestão</strong>. O faturamento subiu, mas a estrutura continuou de loja pequena: sem papéis definidos, sem indicador acompanhado, sem rotina de decisão. É o ponto em que a loja passa a perder dinheiro justamente crescendo.",
+    steps:["Defina quem responde por venda, por estoque e por caixa. Mesmo que sejam duas pessoas.","Escolha 4 indicadores e acompanhe semanalmente. Faturamento, ticket médio, PA e margem já resolvem.","Institua o fechamento mensal com número: o que aconteceu, por quê e o que muda no mês seguinte."]
+  }
+};
+
+const TIERS = [
+  {min:40, key:"Alta Prioridade", stamp:"Perfil prioritário", cta:{
+      title:"Sua loja está no ponto exato de destravar",
+      text:"Faturamento, tempo de operação e estrutura batem com o perfil que avança mais rápido. Vale conversar agora, antes da próxima coleção entrar."}},
+  {min:28, key:"Média-Alta", stamp:"Perfil qualificado", cta:{
+      title:"A base está pronta. Falta direção",
+      text:"Sua operação já tem estrutura suficiente pra crescer com consistência. O que falta é método e alguém acompanhando de perto."}},
+  {min:17, key:"Média", stamp:"Perfil em análise", cta:{
+      title:"Dá pra destravar, com prioridade certa",
+      text:"Tem ganho rápido disponível na sua operação, mas a ordem importa. Uma conversa curta já define por onde começar."}},
+  {min:8,  key:"Baixa", stamp:"Perfil inicial", cta:{
+      title:"Primeiro o essencial, depois a escala",
+      text:"Há pontos pra organizar antes de estruturar o crescimento. Posso te mostrar o que priorizar nos próximos 30 dias."}},
+  {min:0,  key:"Nutrição", stamp:"Perfil de nutrição", cta:{
+      title:"Começa pelo conteúdo gratuito",
+      text:"Pelo momento da sua loja, conteúdo aplicado resolve mais agora. Quando quiser ir além, a conversa está aberta."}}
+];
+
+/* =========================================================
+   ESTADO
+   ========================================================= */
+const state = {answers:{}, scores:{}, utm:{}, sentPartial:false, sentFinal:false};
+const ORDER = ["intro","nome","dono","faturamento","tempo","equipe","dores","indicadores","contato"];
+
+/* Etapas visíveis na sidebar do stepper */
+const SIDEBAR_STEPS = [
+  {step:"nome", label:"Identificação"},
+  {step:"dono", label:"Perfil"},
+  {step:"faturamento", label:"Faturamento"},
+  {step:"tempo", label:"Tempo de loja"},
+  {step:"equipe", label:"Equipe"},
+  {step:"dores", label:"Dores"},
+  {step:"indicadores", label:"Indicadores"},
+  {step:"contato", label:"Contato"}
+];
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+/* UTMs + fbclid */
+(function(){
+  const p = new URLSearchParams(location.search);
+  ["utm_source","utm_medium","utm_campaign","utm_term","utm_content","fbclid","gclid"].forEach(k=>{
+    if(p.get(k)) state.utm[k]=p.get(k);
+  });
+})();
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+/* Escapa HTML para evitar XSS em dados do usuário */
+function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+/* Shake visual quando tenta avançar sem seleção */
+function shakeEl(id){
+  const el = $(id); if(!el) return;
+  el.classList.remove("shake");
+  void el.offsetWidth; // força reflow para reiniciar a animação
+  el.classList.add("shake");
+  el.addEventListener("animationend",()=>el.classList.remove("shake"),{once:true});
+}
+
+/* Sidebar de etapas */
+function renderSidebar(){
+  const ul = $("#steps-nav");
+  ul.innerHTML = SIDEBAR_STEPS.map((s,i)=>`
+    <li class="step-item" data-step="${s.step}">
+      <span class="step-dot">${i+1}</span>
+      <span class="step-label">${s.label}</span>
+    </li>`).join("");
+}
+function updateSidebar(step){
+  const idx = SIDEBAR_STEPS.findIndex(s=>s.step===step);
+  $$("#steps-nav .step-item").forEach((li,i)=>{
+    li.classList.remove("done","current");
+    const dot = li.querySelector(".step-dot");
+    if(idx>=0 && i<idx){ li.classList.add("done"); dot.textContent="✓"; }
+    else{
+      dot.textContent = i+1;
+      if(idx>=0 && i===idx) li.classList.add("current");
+    }
+  });
+  if(idx>=0){
+    $("#toggle-dot").textContent = idx+1;
+    $("#toggle-label").textContent = SIDEBAR_STEPS[idx].label;
+    $("#toggle-sub").textContent = `Etapa ${idx+1} de ${SIDEBAR_STEPS.length}`;
+  }
+  collapseStepsAccordion();
+}
+function collapseStepsAccordion(){
+  $("#steps-toggle").classList.remove("open");
+  $("#steps-toggle").setAttribute("aria-expanded","false");
+  $("#steps-nav-collapse").classList.remove("open");
+}
+$("#steps-toggle").addEventListener("click",()=>{
+  const open = $("#steps-toggle").classList.toggle("open");
+  $("#steps-toggle").setAttribute("aria-expanded", String(open));
+  $("#steps-nav-collapse").classList.toggle("open", open);
+});
+function syncShell(step){
+  const inFlow = SIDEBAR_STEPS.some(s=>s.step===step);
+  $("#stepper-shell").classList.toggle("hidden-shell", !inFlow);
+  if(inFlow) updateSidebar(step);
+}
+
+/* Navegação */
+const QUESTION_STEPS = ["dono","faturamento","tempo","equipe","dores","indicadores"];
+
+const DROPDOWN_KEYS = ["faturamento","dores"];
+function closeDropdown(key){
+  const btn = $("#dd-btn-"+key), menu = $("#dd-menu-"+key);
+  if(!btn || !menu) return;
+  btn.classList.remove("open"); menu.classList.remove("open"); btn.setAttribute("aria-expanded","false");
+}
+
+function go(step){
+  $$(".screen").forEach(s=>s.classList.toggle("on", s.dataset.step===step));
+  DROPDOWN_KEYS.forEach(closeDropdown);
+  const i = ORDER.indexOf(step);
+  const bar = $("#bar"), sc = $("#stepcount");
+  if(i >= 0){
+    bar.style.width = (i/(ORDER.length-1)*100)+"%";
+    if(i === 0){
+      sc.textContent = "";
+    } else if(QUESTION_STEPS.includes(step)){
+      const qn = QUESTION_STEPS.indexOf(step) + 1;
+      sc.textContent = String(qn).padStart(2,"0") + " / 06";
+    } else {
+      sc.textContent = "";
+    }
+  } else if(["resultado","agenda","nutricao"].includes(step)){
+    bar.style.width="100%"; sc.textContent="COMPLETO";
+  } else {
+    bar.style.width="100%"; sc.textContent="";
+  }
+  syncShell(step);
+  window.scrollTo({top:0,behavior:"instant"});
+  // Sincroniza contadores quando volta para telas de multi-select
+  if(step === "dores") updateCounter("dores", 3);
+  if(step === "indicadores") updateCounter("indicadores", null);
+  // Carrega embed do Cal.com ao entrar na tela de agenda (apenas uma vez)
+  if(step === "agenda" && !window._calLoaded){
+    window._calLoaded = true;
+    const loader = $("#cal-loading"), wrap = $("#cal-embed"), fallback = $("#cal-fallback");
+    let loaded = false;
+    const showEmbed = () => { loaded = true; loader.style.display = "none"; wrap.classList.remove("hidden"); };
+    const showFallback = () => {
+      if(loaded) return;
+      loader.style.display = "none";
+      wrap.classList.add("hidden");
+      fallback.classList.remove("hidden");
+    };
+    try{
+      (function(C,A,L){
+        let p=function(a,ar){a.q.push(ar);};
+        let d=C.document;
+        C.Cal=C.Cal||function(){
+          let cal=C.Cal,ar=arguments;
+          if(!cal.loaded){cal.ns={};cal.q=cal.q||[];d.head.appendChild(d.createElement("script")).src=A;cal.loaded=true;}
+          if(ar[0]===L){const api=function(){p(api,arguments);};const ns=ar[1];api.q=api.q||[];
+            if(typeof ns==="string"){cal.ns[ns]=cal.ns[ns]||api;p(cal.ns[ns],ar);p(cal,[L,ns,ar[2]]);}else p(cal,ar);return;}
+          p(cal,ar);
+        };
+      })(window,"https://app.cal.com/embed/embed.js","init");
+      Cal("init",{origin:"https://cal.com"});
+      Cal("inline",{
+        elementOrSelector:"#cal-embed",
+        calLink: CONFIG.CAL_URL.replace(/^https?:\/\/cal\.com\//,""),
+        layout:"month_view"
+      });
+      Cal("ui",{
+        theme:"light",
+        styles:{branding:{brandColor:"#D6503E"}},
+        hideEventTypeDetails:false,
+        layout:"month_view"
+      });
+      Cal("on",{action:"__routeChanged", callback: showEmbed});
+    }catch(e){ showFallback(); }
+    setTimeout(showFallback, 4500); // se o widget não confirmar carregamento, mostra alternativa limpa em vez de deixar caixa vazia/quebrada
+    $("#b-zap-fallback").href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent("Oi! Quero agendar uma conversa sobre o diagnóstico da minha loja.")}`;
+  }
+  const focusable = $(".screen.on input, .screen.on .opt, .screen.on .btn");
+  if(focusable && window.innerWidth>720) focusable.focus({preventScroll:true});
+}
+
+/* Render de opções */
+function render(key, {multi=false, max=null, next=null}={}){
+  const box = $("#o-"+key);
+  box.innerHTML = "";
+  Q[key].forEach(o=>{
+    const b = document.createElement("button");
+    b.type="button"; b.className="opt"; b.dataset.v=o.v;
+    b.innerHTML = `<span class="box"></span><span>${o.t}</span>`;
+    b.addEventListener("click",()=>{
+      if(multi){
+        const sel = [...box.querySelectorAll(".opt.sel")];
+        if(o.solo){ sel.forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); }
+        else{
+          const soloEl = box.querySelector('.opt.sel[data-v="nenhum"]');
+          if(soloEl) soloEl.classList.remove("sel");
+          if(!b.classList.contains("sel") && max && box.querySelectorAll(".opt.sel").length>=max) return;
+          b.classList.toggle("sel");
+        }
+        lock(box,max);
+        updateCounter(key, max);
+      }else{
+        box.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));
+        b.classList.add("sel");
+        state.answers[key]=o.v;
+        const ddLabel = $("#dd-label-"+key);
+        if(ddLabel){ ddLabel.textContent = o.t; ddLabel.classList.remove("placeholder"); }
+        setTimeout(()=>routeSingle(key,o,next),160);
+      }
+    });
+    box.appendChild(b);
+  });
+}
+
+/* Dropdown flutuante (faturamento, dores) — abre/fecha sem empurrar o layout */
+function bindDropdown(key, multi){
+  const btn = $("#dd-btn-"+key), menu = $("#dd-menu-"+key);
+  if(!btn || !menu) return;
+  /* "portal": tira o menu de dentro do card (que corta overflow) e joga direto no body,
+     posicionado via coordenadas reais do botão — assim nunca é cortado por nenhum ancestral */
+  document.body.appendChild(menu);
+  const position = () => {
+    const r = btn.getBoundingClientRect();
+    const maxTop = window.innerHeight - 16;
+    let top = r.bottom + 8;
+    menu.style.left = r.left + "px";
+    menu.style.width = r.width + "px";
+    menu.style.maxHeight = Math.min(340, maxTop - top) + "px";
+    menu.style.top = top + "px";
+  };
+  const open = () => { position(); btn.classList.add("open"); menu.classList.add("open"); btn.setAttribute("aria-expanded","true"); };
+  const close = () => { btn.classList.remove("open"); menu.classList.remove("open"); btn.setAttribute("aria-expanded","false"); };
+  btn.addEventListener("click", e=>{ e.stopPropagation(); menu.classList.contains("open") ? close() : open(); });
+  document.addEventListener("click", e=>{ if(!menu.contains(e.target) && e.target!==btn) close(); });
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape") close(); });
+  window.addEventListener("resize", ()=>{ if(menu.classList.contains("open")) position(); });
+  window.addEventListener("scroll", e=>{ if(menu.classList.contains("open") && !menu.contains(e.target)) close(); }, true);
+  if(!multi){ menu.addEventListener("click", e=>{ if(e.target.closest(".opt")) close(); }); }
+}
+
+function updateCounter(key, max){
+  const countEl = $("#count-"+key);
+  if(!countEl) return;
+  const n = document.querySelectorAll("#o-"+key+" .opt.sel").length;
+  if(max){
+    countEl.textContent = `${n} / ${max} selecionada${n!==1?"s":""}`;
+    countEl.classList.toggle("full", n >= max);
+  } else {
+    countEl.textContent = n > 0 ? `${n} selecionado${n!==1?"s":""}` : "0 selecionado(s)";
+    countEl.classList.toggle("full", n > 0);
+  }
+  const ddLabel = $("#dd-label-"+key);
+  if(ddLabel){ ddLabel.textContent = countEl.textContent; ddLabel.classList.toggle("placeholder", n===0); }
+}
+function lock(box,max){
+  if(!max) return;
+  const n = box.querySelectorAll(".opt.sel").length;
+  box.querySelectorAll(".opt").forEach(x=>x.classList.toggle("locked", n>=max && !x.classList.contains("sel") && x.dataset.v!=="nenhum"));
+}
+
+function routeSingle(key,o,next){
+  if(key==="dono"){ return o.ok ? go("faturamento") : exit("dq-dono"); }
+  if(key==="faturamento"){ return o.ok===false ? exit("dq-fat") : go("tempo"); }
+  go(next);
+}
+
+function exit(screen){
+  state.answers.status = screen==="dq-dono" ? "desqualificado_perfil" : "desqualificado_faturamento";
+  if(state.answers.nome) $("#h-dqfat").textContent = state.answers.nome+", ainda não é o momento certo";
+  send(true);
+  go(screen);
+}
+
+/* Render inicial */
+renderSidebar();
+render("dono"); render("faturamento");
+render("tempo",{next:"equipe"}); render("equipe",{next:"dores"});
+render("dores",{multi:true,max:3}); render("indicadores",{multi:true});
+bindDropdown("faturamento", false);
+bindDropdown("dores", true);
+
+$("#diag-reveal-btn").addEventListener("click", ()=>{
+  $("#diag-block").classList.remove("locked");
+  track("RevealDiagnosis");
+});
+
+/* Suporte a Enter nos inputs */
+$("#i-nome").addEventListener("keydown", e => { if(e.key === "Enter") $("#b-nome").click(); });
+$("#i-zap").addEventListener("keydown",  e => { if(e.key === "Enter") $("#i-insta").focus(); });
+$("#i-insta").addEventListener("keydown", e => { if(e.key === "Enter") $("#b-contato").click(); });
+
+/* Botões de navegação simples */
+$$("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+$$("[data-back]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.back)));
+
+/* Etapa nome */
+$("#b-nome").addEventListener("click",()=>{
+  const v = $("#i-nome").value.trim();
+  if(v.length<2){ $("#e-nome").classList.add("on"); return; }
+  $("#e-nome").classList.remove("on");
+  state.answers.nome = v;
+  track("StartQuiz");
+  const first = v.split(" ")[0];
+  $("#h-contato").textContent = `${first}, pra onde eu mando o seu diagnóstico?`;
+  $("#h-dono").textContent = `${first}, você é dono(a) de loja de roupas?`;
+  $("#h-fat").textContent = `${first}, qual o faturamento médio mensal da loja?`;
+  go("dono");
+});
+
+/* Máscara de telefone */
+$("#i-zap").addEventListener("input",e=>{
+  let d = e.target.value.replace(/\D/g,"").slice(0,11);
+  e.target.value = d.length>10 ? d.replace(/(\d{2})(\d{5})(\d{0,4})/,"($1) $2-$3")
+                 : d.length>6  ? d.replace(/(\d{2})(\d{4})(\d{0,4})/,"($1) $2-$3")
+                 : d.length>2  ? d.replace(/(\d{2})(\d{0,5})/,"($1) $2") : d;
+});
+
+$("#b-contato").addEventListener("click",()=>{
+  const zap = $("#i-zap").value.replace(/\D/g,"");
+  const insta = $("#i-insta").value.trim().replace(/^@/,"");
+  let ok = true;
+  if(zap.length<10){ $("#e-zap").classList.add("on"); ok=false; } else $("#e-zap").classList.remove("on");
+  if(insta.length<2){ $("#e-insta").classList.add("on"); ok=false; } else $("#e-insta").classList.remove("on");
+  if(!ok) return;
+  state.answers.whatsapp = zap;
+  state.answers.instagram = "@"+insta;
+  finish();
+});
+
+/* Múltipla escolha */
+$("#b-dores").addEventListener("click",()=>{
+  const sel = [...$("#o-dores").querySelectorAll(".opt.sel")].map(x=>x.dataset.v);
+  if(!sel.length){ shakeEl("#o-dores"); return; }
+  state.answers.dores = sel; go("indicadores");
+});
+$("#b-indicadores").addEventListener("click",()=>{
+  const sel = [...$("#o-indicadores").querySelectorAll(".opt.sel")].map(x=>x.dataset.v);
+  if(!sel.length){ shakeEl("#o-indicadores"); return; }
+  state.answers.indicadores = sel; go("contato");
+});
+$("#b-skip").addEventListener("click",()=>{ state.answers.investimento="nao_agendou"; send(true); go("nutricao"); });
+$("#b-agendar").addEventListener("click",()=>{ send(true); go("agenda"); });
+
+/* =========================================================
+   SCORE
+   ========================================================= */
+function pts(key,val){ const o = Q[key].find(x=>x.v===val); return o ? (o.p||0) : 0; }
+
+function score(){
+  const a = state.answers;
+  const s = {
+    faturamento: pts("faturamento",a.faturamento),
+    tempo:       pts("tempo",a.tempo),
+    equipe:      pts("equipe",a.equipe),
+    dores:       (a.dores||[]).reduce((t,v)=>t+pts("dores",v),0),
+    indicadores: (a.indicadores||[]).reduce((t,v)=>t+pts("indicadores",v),0)
+  };
+  s.total = Object.values(s).reduce((x,y)=>x+y,0);
+  state.scores = s;
+
+  /* gargalo dominante, ponderado pelo peso da dor */
+  const g = {};
+  (a.dores||[]).forEach(v=>{
+    const o = Q.dores.find(x=>x.v===v);
+    g[o.g] = (g[o.g]||0) + o.p;
+  });
+  state.bucket = Object.keys(g).sort((x,y)=>g[y]-g[x])[0] || "caixa";
+  state.tier = TIERS.find(t=>s.total>=t.min);
+  return s;
+}
+
+/* =========================================================
+   RESULTADO
+   ========================================================= */
+/* Normaliza qualquer nota bruta pra uma escala única de 0 a 10 */
+function normScore(raw,max){ return max ? Math.round((raw/max)*10) : 0; }
+function scoreBand(n){ return n<=4 ? "low" : n<=7 ? "mid" : "high"; }
+
+/* Mensagem do selo final, adaptada à faixa da nota geral */
+const BAND_MESSAGES = {
+  low: {
+    label: "Alerta: sua loja está no vermelho",
+    text: "Os números mostram sinais reais de risco. Sem corrigir isso logo, o problema tende a crescer junto com o próximo mês."
+  },
+  mid: {
+    label: "Pontos de atenção identificados",
+    text: "A base existe, mas alguns pontos estão travando o crescimento. Vale organizar isso antes de acelerar."
+  },
+  high: {
+    label: "Perfil qualificado",
+    text: "Sua loja está bem estruturada nos pontos avaliados. É hora de acelerar com método pra sustentar esse ritmo."
+  }
+};
+
+function scoreRow(label,raw,max){
+  const n = normScore(raw,max), band = scoreBand(n);
+  return `<div class="score-row">
+    <div class="score-row-top"><span class="score-label">${label}</span><span class="score-val band-${band}" data-target="${n}">0/10</span></div>
+    <div class="score-bar"><i class="score-fill band-${band}" data-target="${n}"></i></div>
+  </div>`;
+}
+
+/* Anima números e barras do recibo, dando sensação de cálculo real */
+function animateReceiptCounters(){
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  $$("#receipt [data-target]").forEach(el=>{
+    const target = parseInt(el.dataset.target,10);
+    const isFill = el.classList.contains("score-fill");
+    const isTotal = el.classList.contains("score-total-val");
+    const paint = v => {
+      if(isFill) el.style.width = (v*10)+"%";
+      else if(isTotal) el.innerHTML = `${v}<small>/10</small>`;
+      else el.textContent = `${v}/10`;
+    };
+    if(reduced){ paint(target); return; }
+    const start = performance.now(), dur = 800;
+    function step(now){
+      const p = Math.min((now-start)/dur,1);
+      const eased = 1-Math.pow(1-p,3);
+      paint(Math.round(eased*target));
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+function finish(){
+  score();
+  go("loading");
+  const logs = [
+    "> lendo faturamento e estrutura…",
+    "> cruzando respostas com o benchmark Evolving…",
+    "> identificando gargalos…",
+    "> calculando nota por área…",
+    "> calculando índice de diagnóstico…",
+    "> montando o plano de ação"
+  ];
+  const el = $("#load-log"), pctEl = $("#load-pct");
+  el.textContent = "";
+  const stepMs = 480;
+  const total = logs.length*stepMs + 550;
+  logs.forEach((l,i)=>setTimeout(()=>{ el.textContent += (i?"\n":"")+l; }, i*stepMs));
+  const startT = performance.now();
+  (function tick(now){
+    const p = Math.min((now-startT)/total,1);
+    if(pctEl) pctEl.textContent = Math.round(p*100)+"%";
+    if(p<1) requestAnimationFrame(tick);
+  })(startT);
+  setTimeout(showResult, total);
+}
+
+function showResult(){
+  const a = state.answers, s = state.scores, d = DIAG[state.bucket], tier = state.tier;
+  const first = (a.nome||"").split(" ")[0];
+  const now = new Date().toLocaleDateString("pt-BR");
+  const totalNorm = normScore(s.total, TOTAL_MAX);
+  const totalBand = scoreBand(totalNorm);
+  const msg = BAND_MESSAGES[totalBand];
+  $("#diag-block").classList.add("locked"); // cada novo diagnóstico começa trancado de novo
+
+  $("#h-res").textContent = `${first}, este é o diagnóstico da sua loja`;
+
+  $("#receipt").innerHTML = `
+    <div class="r-head">
+      <b>EVOLVING · DIAGNÓSTICO</b>
+      <span>${esc(a.instagram)} · ${now}</span>
+    </div>
+    <div class="score-total">
+      <span class="score-total-label">ÍNDICE DE DIAGNÓSTICO</span>
+      <span class="score-total-val band-${totalBand}" data-target="${totalNorm}">0<small>/10</small></span>
+    </div>
+    <div class="score-rows">
+      ${scoreRow("FATURAMENTO", s.faturamento, MAX.faturamento)}
+      ${scoreRow("TEMPO DE OPERAÇÃO", s.tempo, MAX.tempo)}
+      ${scoreRow("ESTRUTURA DE TIME", s.equipe, MAX.equipe)}
+      ${scoreRow("LEITURA DE NÚMEROS", s.indicadores, MAX.indicadores)}
+      ${scoreRow("GARGALOS DECLARADOS", s.dores, MAX.dores)}
+    </div>
+    <div class="r-stamp band-${totalBand}">
+      <strong>${msg.label}</strong>
+      <span>${msg.text}</span>
+    </div>
+    <div class="r-foot">Diagnóstico gerado a partir das suas respostas.<br>Não substitui a análise da operação.</div>
+  `;
+  animateReceiptCounters();
+
+  $("#diag-title").textContent = d.title;
+  $("#diag-text").innerHTML = d.text;
+  $("#diag-tags").innerHTML = (a.dores||[]).map(v=>`<span class="tag">${Q.dores.find(x=>x.v===v).t}</span>`).join("");
+  $("#diag-steps").innerHTML = d.steps.map(x=>`<li><span>${x}</span></li>`).join("");
+  $("#h-agenda").textContent = `Tudo certo, ${first}. Escolhe o melhor horário`;
+  $("#h-nut").textContent = `Beleza ${first}, registrei tudo`;
+
+  $("#b-zap").href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(`Oi! Sou ${a.nome} da loja ${a.instagram}. Fiz o diagnóstico e quero agendar uma conversa.`)}`;
+
+  a.status = "qualificado";
+  send(false); // envio parcial — captura o lead mesmo se abandonar aqui
+  go("resultado");
+  track("Lead", {score:s.total, prioridade:tier.key});
+}
+
+/* =========================================================
+   ENVIO
+   ========================================================= */
+function payload(){
+  return {
+    ...state.answers,
+    dores: (state.answers.dores||[]).map(v=>Q.dores.find(x=>x.v===v).t),
+    indicadores: (state.answers.indicadores||[]).map(v=>Q.indicadores.find(x=>x.v===v).t),
+    score_total: state.scores.total ?? null,
+    score_detalhe: state.scores,
+    prioridade: state.tier ? state.tier.key : null,
+    gargalo: state.bucket || null,
+    ...state.utm,
+    pagina: location.href,
+    enviado_em: new Date().toISOString()
+  };
+}
+function send(isFinal = false){
+  /* Deduplicação: parcial dispara 1×, final dispara 1×
+     Evita envios múltiplos por voltar/avançar na tela de investimento */
+  if(isFinal){
+    if(state.sentFinal) return;
+    state.sentFinal = true;
+  } else {
+    if(state.sentPartial) return;
+    state.sentPartial = true;
+  }
+  const data = payload();
+  console.log("[Evolving] lead:", isFinal ? "FINAL" : "parcial", data);
+  if(!CONFIG.WEBHOOK_URL) return;
+  try{
+    fetch(CONFIG.WEBHOOK_URL,{
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(data), keepalive:true
+    }).catch(()=>{});
+  }catch(e){}
+}
+function track(evt,params){
+  if(CONFIG.META_PIXEL && typeof fbq==="function"){ try{ fbq("track",evt,params); }catch(e){} }
+}
+</script>
+</body>
+</html>
