@@ -883,8 +883,13 @@ function go(step){
         layout:"month_view"
       });
       Cal("on",{action:"__routeChanged", callback: showEmbed});
+      // sinal mais confiável que o __routeChanged (que só dispara em navegação DENTRO do widget,
+      // não necessariamente no carregamento inicial): observa se o Cal.com realmente inseriu algo na div
+      new MutationObserver((_, obs) => {
+        if(wrap.childElementCount > 0){ showEmbed(); obs.disconnect(); }
+      }).observe(wrap, {childList:true});
     }catch(e){ showFallback(); }
-    setTimeout(showFallback, 4500); // se o widget não confirmar carregamento, mostra alternativa limpa em vez de deixar caixa vazia/quebrada
+    setTimeout(showFallback, 6000); // se nada carregou até aqui, mostra alternativa limpa em vez de deixar caixa vazia/quebrada
     $("#b-zap-fallback").href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent("Oi! Quero agendar uma conversa sobre o diagnóstico da minha loja.")}`;
   }
   const focusable = $(".screen.on input, .screen.on .opt, .screen.on .btn");
