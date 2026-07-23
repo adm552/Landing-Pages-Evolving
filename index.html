@@ -933,12 +933,23 @@ function bindDropdown(key, multi){
   document.body.appendChild(menu);
   const position = () => {
     const r = btn.getBoundingClientRect();
-    const maxTop = window.innerHeight - 16;
-    let top = r.bottom + 8;
+    const spaceBelow = window.innerHeight - r.bottom - 16;
+    const spaceAbove = r.top - 16;
     menu.style.left = r.left + "px";
     menu.style.width = r.width + "px";
-    menu.style.maxHeight = Math.min(340, maxTop - top) + "px";
-    menu.style.top = top + "px";
+    if(spaceBelow >= 200 || spaceBelow >= spaceAbove){
+      // espaço suficiente (ou melhor que em cima): abre pra baixo, do jeito normal
+      const h = Math.min(420, Math.max(140, spaceBelow));
+      menu.style.top = (r.bottom + 8) + "px";
+      menu.style.bottom = "";
+      menu.style.maxHeight = h + "px";
+    } else {
+      // pouco espaço embaixo: abre pra cima, crescendo a partir do botão — nunca corta na base da tela
+      const h = Math.min(420, Math.max(140, spaceAbove));
+      menu.style.top = "";
+      menu.style.bottom = (window.innerHeight - r.top + 8) + "px";
+      menu.style.maxHeight = h + "px";
+    }
   };
   const open = () => { position(); btn.classList.add("open"); menu.classList.add("open"); btn.setAttribute("aria-expanded","true"); };
   const close = () => { btn.classList.remove("open"); menu.classList.remove("open"); btn.setAttribute("aria-expanded","false"); };
